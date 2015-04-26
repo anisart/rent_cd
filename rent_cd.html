@@ -1,0 +1,75 @@
+<head>
+    <title>Rent CD</title>
+
+    <script type="text/javascript" src="webix-meteor.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+//    var cursor = Genres.find();
+//    var proxyGenre = webix.proxy('meteor', cursor);
+    webix.ready(function(){
+        webix.ui({
+            view:"tabview",
+            cells:[
+                {
+                    header:"Genre",
+                    body:{
+                        container:"listGenre",
+                        type:"space",
+                        rows:[
+                            {view:"toolbar", cols:[
+                                {
+                                    view:"button",
+                                    value:"Add New Genre",
+                                    width:150,
+                                    type:"form",
+                                    align:"left",
+                                    click:function(){
+                                        var row = $$("dtableGenres").add({ });
+                                        $$("dtableGenres").editCell(row, "title")
+                                    }
+                                },
+                                {},
+                                {
+                                    view:"button",
+                                    value:"Delete Genre",
+                                    width:150,
+                                    type:"danger",
+                                    align:"right",
+                                    click:function(){
+                                        var id = $$("dtableGenres").getSelectedId();
+                                        if (id)
+                                            $$("dtableGenres").remove(id);
+                                        else
+                                            webix.message("Please select any row first");
+                                    }
+                                }
+                            ]
+                            },
+                            { cols:[
+                                {
+                                    view:"datatable",
+                                    id:"dtableGenres",
+                                    columns: [{
+                                        id:"title", editor:"text", fillspace:1
+                                    }],
+                                    url:webix.proxy('meteor', Genres),
+                                    save:webix.proxy('meteor', Genres),
+
+                                    autoConfig: true,
+                                    editable:true,
+                                    editaction:"dblclick",
+                                    navigation:true,
+                                    select:"cell",
+                                    width:300
+                                }
+                            ]}
+                        ]
+                    }
+                }
+            ]
+        });
+    });
+</script>
+<div id="listGenre"></div>
+</body>

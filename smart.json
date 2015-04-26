@@ -1,0 +1,8 @@
+{
+  "packages": {
+    "webix:webix": {
+      "branch": "test_remove_insecure",
+      "git": "https://github.com/pthom/meteor-webix.git"
+    }
+  }
+}
