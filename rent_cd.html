@@ -5,9 +5,11 @@
 </head>
 <body>
 <script type="text/javascript">
-//    var cursor = Genres.find();
-//    var proxyGenre = webix.proxy('meteor', cursor);
     webix.ready(function(){
+        webix.protoUI({
+            name:"editlist"
+        }, webix.EditAbility, webix.ui.list);
+
         webix.ui({
             view:"tabview",
             cells:[
@@ -25,8 +27,9 @@
                                     type:"form",
                                     align:"left",
                                     click:function(){
-                                        var row = $$("dtableGenres").add({ });
-                                        $$("dtableGenres").editCell(row, "title")
+                                        var row = $$("listGenres").add({
+                                            title:"New title"
+                                        });
                                     }
                                 },
                                 {},
@@ -37,9 +40,9 @@
                                     type:"danger",
                                     align:"right",
                                     click:function(){
-                                        var id = $$("dtableGenres").getSelectedId();
+                                        var id = $$("listGenres").getSelectedId();
                                         if (id)
-                                            $$("dtableGenres").remove(id);
+                                            $$("listGenres").remove(id);
                                         else
                                             webix.message("Please select any row first");
                                     }
@@ -48,20 +51,20 @@
                             },
                             { cols:[
                                 {
-                                    view:"datatable",
-                                    id:"dtableGenres",
-                                    columns: [{
-                                        id:"title", editor:"text", fillspace:1
-                                    }],
+                                    view:"editlist",
+                                    id:"listGenres",
+                                    template:"#title#",
                                     url:webix.proxy('meteor', Genres),
                                     save:webix.proxy('meteor', Genres),
 
                                     autoConfig: true,
                                     editable:true,
                                     editaction:"dblclick",
+                                    editor:"text",
+                                    editValue:"title",
                                     navigation:true,
                                     select:"cell",
-                                    width:300
+                                    width:320
                                 }
                             ]}
                         ]
