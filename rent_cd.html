@@ -238,7 +238,266 @@
                                         }
                                     }
                                 ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
 
+        sellersCell =
+        {
+            header:"Sellers",
+            body:{
+                container:"listSeller",
+                type:"space",
+                rows:[
+                    {
+                        view:"toolbar",
+                        width:500,
+                        cols:[
+                            {
+                                view:"button",
+                                value:"Add New Seller",
+                                width:200,
+                                type:"form",
+                                align:"left",
+                                click:function(){
+                                    $$("editlistSellers").add({
+                                        fname:"Firstname", sname:"Surname", pname:"",
+                                        spassport:"", npassport:"", ipassport:"", apassport:""
+                                    },0)
+                                }
+                            },
+                            {},
+                            {
+                                view:"button",
+                                value:"Delete Sellers",
+                                width:200,
+                                type:"danger",
+                                align:"right",
+                                click:function(){
+                                    var id = $$("editlistSellers").getSelectedId();
+                                    if (id) {
+                                        $$("editlistSellers").remove(id);
+                                    }
+                                    else
+                                        webix.message("Please select any row first");
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        cols:[
+                            {
+                                view:"editlist",
+                                id:"editlistSellers",
+                                template:"#sname# #fname# #pname#",
+
+                                width:300,
+                                select:true,
+                                autoConfig:true,
+                                url:webix.proxy('meteor', Sellers),
+                                save:webix.proxy('meteor', Sellers)
+                            },
+                            {width:10},
+                            {
+                                rows:[
+                                    {
+                                        view:"form",
+                                        id:"formSellers",
+                                        scroll:false,
+                                        width:600,
+                                        elements:[
+                                            {
+                                                view:"text",
+                                                name:"sname",
+                                                label:"SurName"
+                                            },
+                                            {
+                                                view:"text",
+                                                name:"fname",
+                                                label:"FirstName"
+                                            },
+                                            {
+                                                view:"text",
+                                                name:"pname",
+                                                label:"PatronymicName"
+                                            },
+                                            {
+                                                view:"text",
+                                                name:"spassport",
+                                                label:"Passport series"
+                                            },
+                                            {
+                                                view:"text",
+                                                name:"npassport",
+                                                label:"Passport series"
+                                            },
+                                            {
+                                                view:"text",
+                                                name:"ipassport",
+                                                label:"Issuance of passport"
+                                            },
+                                            {
+                                                view:"text",
+                                                name:"apassport",
+                                                label:"Address"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        view: "button",
+                                        value: "Save",
+                                        width: 100,
+                                        click:function(){
+                                            //add checking for unique spassport and npassport
+                                            $$("formSellers").save();
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        catalogueCdCell =
+        {
+            header:"CD catalogue",
+            body:{
+                container:"listCatalogue",
+                type:"space",
+                rows:[
+                    {
+                        view:"toolbar",
+                        width:500,
+                        cols:[
+                            {
+                                view:"button",
+                                value:"Add New CD",
+                                width:200,
+                                type:"form",
+                                align:"left",
+                                click:function(){
+                                    $$("editlistCatalogue").add({
+                                        mname:"", mrate:"",
+                                        mallnum:0, mallnumnow:0, mpriceperday:"",
+                                        mgenres:"", mmoviemakers:"",
+                                        mactors:"", mdirectors:""
+                                    },0)
+                                }
+                            },
+                            {},
+                            {
+                                view:"button",
+                                value:"Delete CD",
+                                width:200,
+                                type:"danger",
+                                align:"right",
+                                click:function(){
+                                    var id = $$("editlistCatalogue").getSelectedId();
+                                    if (id) {
+                                        $$("editlistCatalogue").remove(id);
+                                    }
+                                    else
+                                        webix.message("Please select any row first");
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        cols:[
+                            {
+                                view:"editlist",
+                                id:"editlistCatalogue",
+                                template:"#mname#",
+
+                                width:300,
+                                select:true,
+                                autoConfig:true,
+                                url:webix.proxy('meteor', CDCatalogue),
+                                save:webix.proxy('meteor', CDCatalogue)
+                            },
+                            {width:10},
+                            {
+                                rows:[
+                                    {
+                                        view:"form",
+                                        id:"formCatalogue",
+                                        scroll:false,
+                                        width:600,
+
+                                        elements:[
+                                            {
+                                                view:"text",
+                                                name:"mname",
+                                                label:"Movie Name"
+                                            },
+                                            {
+                                                view:"text",
+                                                name:"mrate",
+                                                label:"Movie Rate"
+                                            },
+                                            {
+                                                view:"counter",
+                                                name:"mallnum",
+                                                label:"All copies",
+                                                step:1,
+                                                min:0
+                                            },
+                                            {
+                                                view:"text",
+                                                name:"mallnumnow",
+                                                label:"All copies for now",
+                                                //editable:false,//do not work
+                                                step:1,
+                                                min:0
+                                            },
+                                            {
+                                                view:"text",
+                                                name:"mpriceperday",
+                                                label:"Price per day"
+                                            },
+                                            {
+                                                view:"combo",
+                                                name:"mgenres",
+                                                label:"List of genres",
+                                                options:webix.proxy('meteor', Genres)
+                                                //collection:Genres,
+                                                //collection:webix.proxy('meteor', Genres),
+                                                //header:"title"
+                                            },
+                                            {
+                                                view:"combo",
+                                                name:"mmoviemakers",
+                                                label:"List of movie makers",
+                                                options:webix.proxy('meteor', MovieMakers)
+                                            },
+                                            {
+                                                view:"combo",
+                                                name:"mactors",
+                                                label:"List of actors",
+                                                options:webix.proxy('meteor', Actors)
+                                            },
+                                            {
+                                                view:"richselect",
+                                                name:"mdirectors",
+                                                label:"List of directors",
+                                                options:webix.proxy('meteor', Actors)
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        view: "button",
+                                        value: "Save",
+                                        width: 100,
+                                        click:function(){
+                                            $$("formCatalogue").save();
+                                        }
+                                    }
+                                ]
                             }
                         ]
                     }
@@ -251,13 +510,17 @@
             cells:[
                 genresCell,
                 movieMakersCell,
-                actorsCell
+                actorsCell,
+                sellersCell,
+                catalogueCdCell
             ],
             width:"100%",
             height:"100%"
         });
 
         $$('formActors').bind('editlistActors');
+        $$('formSellers').bind('editlistSellers');
+        $$('formCatalogue').bind('editlistCatalogue');
 
     });
 
@@ -265,4 +528,6 @@
 <div id="listGenre"></div>
 <div id="listMM"></div>
 <div id="listActor"></div>
+<div id="listSeller"></div>
+<div id="listCatalogue"></div>
 </body>
