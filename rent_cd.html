@@ -10,69 +10,259 @@
             name:"editlist"
         }, webix.EditAbility, webix.ui.list);
 
+        genresCell =
+        {
+            header:"Genre",
+            body:{
+                container:"listGenre",
+                type:"space",
+                rows:[
+                    {
+                        view:"toolbar",
+                        width:320,
+                        cols:[
+                        {
+                            view:"button",
+                            value:"Add New Genre",
+                            width:150,
+                            type:"form",
+                            align:"left",
+                            click:function(){
+                                var row = $$("listGenres").add({
+                                    title:"New title"
+                                });
+                            }
+                        },
+                        {},
+                        {
+                            view:"button",
+                            value:"Delete Genre",
+                            width:150,
+                            type:"danger",
+                            align:"right",
+                            click:function(){
+                                var id = $$("listGenres").getSelectedId();
+                                if (id)
+                                    $$("listGenres").remove(id);
+                                else
+                                    webix.message("Please select any row first");
+                            }
+                        }]
+                    },
+                    {
+                        cols:[
+                        {
+                            view:"editlist",
+                            id:"listGenres",
+                            template:"#title#",
+                            url:webix.proxy('meteor', Genres),
+                            save:webix.proxy('meteor', Genres),
+
+                            autoConfig: true,
+                            editable:true,
+                            editaction:"dblclick",
+                            editor:"text",
+                            editValue:"title",
+                            navigation:true,
+                            select:"cell",
+                            width:320
+                        }]
+                    }
+                ]
+            }
+        };
+
+        movieMakersCell =
+        {
+            header:"Movie Makers",
+            body:{
+                container:"listMM",
+                type:"space",
+                rows:[
+                    {
+                        view:"toolbar",
+                        width:500,
+                        cols:[
+                        {
+                            view:"button",
+                            value:"Add New Movie maker",
+                            width:200,
+                            type:"form",
+                            align:"left",
+                            click:function(){
+                                var row = $$("listMMakers").add({
+                                    title:"New title"
+                                });
+                            }
+                        },
+                        {},
+                        {
+                            view:"button",
+                            value:"Delete Movie maker",
+                            width:200,
+                            type:"danger",
+                            align:"right",
+                            click:function(){
+                                var id = $$("listMMakers").getSelectedId();
+                                if (id)
+                                    $$("listMMakers").remove(id);
+                                else
+                                    webix.message("Please select any row first");
+                            }
+                        }
+                    ]
+                    },
+                    {
+                        cols:[
+                        {
+                            view:"editlist",
+                            id:"listMMakers",
+                            template:"#title#",
+                            url:webix.proxy('meteor', MovieMakers),
+                            save:webix.proxy('meteor', MovieMakers),
+
+                            autoConfig: true,
+                            editable:true,
+                            editaction:"dblclick",
+                            editor:"text",
+                            editValue:"title",
+                            navigation:true,
+                            select:"cell",
+                            width:500
+                        }]
+                    }
+                ]
+            }
+        };
+
+        actorsCell =
+        {
+            header:"Actors and Directors",
+            body:{
+                container:"listActor",
+                type:"space",
+                rows:[
+                    {
+                        view:"toolbar",
+                        width:500,
+                        cols:[
+                            {
+                                view:"button",
+                                value:"Add New Actor or Director",
+                                width:200,
+                                type:"form",
+                                align:"left",
+                                click:function(){
+                                    $$("editlistActors").add({
+                                        fname:"New firstname",
+                                        sname:"New surname",
+                                        dateActor:"10/01/1990"
+                                    },0)
+                                }
+                            },
+                            {},
+                            {
+                                view:"button",
+                                value:"Delete Actor or Director",
+                                width:200,
+                                type:"danger",
+                                align:"right",
+                                click:function(){
+                                    var id = $$("editlistActors").getSelectedId();
+                                    if (id) {
+                                        $$("editlistActors").remove(id);
+                                    }
+                                    else
+                                        webix.message("Please select any row first");
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        cols:[
+                            {
+                                /*
+                                view:"datatable",
+                                id:"datatableActors",
+                                columns:[
+                                    { id:"fname",	 editor:"text",	header:"FirstName",     width:250},
+                                    { id:"sname",	 editor:"text",	header:"SurName",	    width:250},
+                                    { id:"dateActor",editor:"date",	header:"Date of Birth", width:150,
+                                        format:webix.Date.dateToStr("%m/%d/%y")}
+                                ],
+                                */
+
+                                view:"editlist",
+                                id:"editlistActors",
+                                template:"#fname# #sname#",
+
+                                width:300,
+                                select:true,
+                                autoConfig:true,
+                                url:webix.proxy('meteor', Actors),
+                                save:webix.proxy('meteor', Actors)
+                            },
+                            {width:10},
+                            {
+                                rows:[
+                                    {
+                                        view:"form",
+                                        id:"formActors",
+                                        scroll:false,
+                                        width:600,
+                                        elements:[
+                                            {
+                                                view:"text",
+                                                name:"fname",
+                                                label:"FirstName"
+                                            },
+                                            {
+                                                view:"text",
+                                                name:"sname",
+                                                label:"SurName"
+                                            },
+                                            {
+                                                view:"datepicker",
+                                                value:"1.2014.1",
+                                                name:"dateActor",
+                                                label:"Date of Birth"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        view: "button",
+                                        value: "Save",
+                                        width: 100,
+                                        click:function(){
+                                            $$("formActors").save();
+                                        }
+                                    }
+                                ]
+
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
         webix.ui({
             view:"tabview",
             cells:[
-                {
-                    header:"Genre",
-                    body:{
-                        container:"listGenre",
-                        type:"space",
-                        rows:[
-                            {view:"toolbar", cols:[
-                                {
-                                    view:"button",
-                                    value:"Add New Genre",
-                                    width:150,
-                                    type:"form",
-                                    align:"left",
-                                    click:function(){
-                                        var row = $$("listGenres").add({
-                                            title:"New title"
-                                        });
-                                    }
-                                },
-                                {},
-                                {
-                                    view:"button",
-                                    value:"Delete Genre",
-                                    width:150,
-                                    type:"danger",
-                                    align:"right",
-                                    click:function(){
-                                        var id = $$("listGenres").getSelectedId();
-                                        if (id)
-                                            $$("listGenres").remove(id);
-                                        else
-                                            webix.message("Please select any row first");
-                                    }
-                                }
-                            ]
-                            },
-                            { cols:[
-                                {
-                                    view:"editlist",
-                                    id:"listGenres",
-                                    template:"#title#",
-                                    url:webix.proxy('meteor', Genres),
-                                    save:webix.proxy('meteor', Genres),
-
-                                    autoConfig: true,
-                                    editable:true,
-                                    editaction:"dblclick",
-                                    editor:"text",
-                                    editValue:"title",
-                                    navigation:true,
-                                    select:"cell",
-                                    width:320
-                                }
-                            ]}
-                        ]
-                    }
-                }
-            ]
+                genresCell,
+                movieMakersCell,
+                actorsCell
+            ],
+            width:"100%",
+            height:"100%"
         });
+
+        $$('formActors').bind('editlistActors');
+
     });
+
 </script>
 <div id="listGenre"></div>
+<div id="listMM"></div>
+<div id="listActor"></div>
 </body>
