@@ -461,31 +461,48 @@
                                                 label:"Price per day"
                                             },
                                             {
-                                                view:"combo",
+                                                view:"richselect",
+                                                id:"mgenres",
                                                 name:"mgenres",
                                                 label:"List of genres",
-                                                options:webix.proxy('meteor', Genres)
-                                                //collection:Genres,
-                                                //collection:webix.proxy('meteor', Genres),
-                                                //header:"title"
+                                                options:[],
+                                                click:function() {
+                                                    var list = $$("mgenres").getPopup().getList();
+                                                        list.parse(genresForSelect());
+                                                }
                                             },
                                             {
-                                                view:"combo",
+                                                view:"richselect",
                                                 name:"mmoviemakers",
+                                                id:"mmoviemakers",
                                                 label:"List of movie makers",
-                                                options:webix.proxy('meteor', MovieMakers)
+                                                options:[],
+                                                click:function() {
+                                                    var list = $$("mmoviemakers").getPopup().getList();
+                                                    list.parse(moviemakersForSelect());
+                                                }
                                             },
                                             {
-                                                view:"combo",
+                                                view:"richselect",
                                                 name:"mactors",
+                                                id:"mactors",
                                                 label:"List of actors",
-                                                options:webix.proxy('meteor', Actors)
+                                                options:[],
+                                                click:function() {
+                                                    var list = $$("mactors").getPopup().getList();
+                                                    list.parse(actorsForSelect());
+                                                }
                                             },
                                             {
                                                 view:"richselect",
                                                 name:"mdirectors",
+                                                id:"mdirectors",
                                                 label:"List of directors",
-                                                options:webix.proxy('meteor', Actors)
+                                                options:[],
+                                                click:function() {
+                                                    var list = $$("mdirectors").getPopup().getList();
+                                                    list.parse(directorsForSelect());
+                                                }
                                             }
                                         ]
                                     },

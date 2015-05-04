@@ -10,6 +10,30 @@ if (Meteor.isClient) {
     Meteor.subscribe('actorsPub');
     Meteor.subscribe('sellersPub');
     Meteor.subscribe('cdcataloguePub');
+
+    genresForSelect = function() {
+        return Genres.find({}).map( function (obj) {
+            return {id: obj._id, value: obj.title};
+        })
+    };
+
+    moviemakersForSelect = function() {
+        return MovieMakers.find({}).map( function (obj) {
+            return {id: obj._id, value: obj.title};
+        })
+    };
+
+    actorsForSelect = function() {
+        return Actors.find({}).map( function (obj) {
+            return {id: obj._id, value: obj.fname + " " + obj.sname};
+        })
+    };
+
+    directorsForSelect = function() {
+        return Actors.find({}).map( function (obj) {
+            return {id: obj._id, value: obj.fname + " " + obj.sname};
+        })
+    };
 }
 
 if (Meteor.isServer) {
