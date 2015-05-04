@@ -375,13 +375,14 @@
                     {
                         view:"toolbar",
                         cols: [
-                        {
-                            view:"search",
-                            align:"center",
-                            placeholder:"Search..",
-                            id:"simplesearch",
-                            width: 300
-                        }]
+                            {
+                                view:"search",
+                                align:"center",
+                                placeholder:"Search..",
+                                id:"simplesearch",
+                                width: 300
+                            }
+                        ]
                     },
                     {
                         view:"dataview",
@@ -791,6 +792,120 @@
                                         }
                                     }
                                 ]
+                            },
+                            {
+                                view:"editlist",
+                                id:"listClientHistory",
+                                //todo: make normal template
+                                //template:"#title#",
+                                url:webix.proxy('meteor', OrderHistory),
+                                save:webix.proxy('meteor', OrderHistory),
+
+                                editable:false,
+                                navigation:true,
+                                select:"cell",
+                                width:300
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        giveCDCell =
+        {
+            header:"Give CD",
+            body:{
+                container:"listgivecd",
+                type:"space",
+                height:"100%",
+                cols:[
+                    {
+                        view: "fieldset",
+                        label: "Select client",
+                        width: 350,
+                        body: {
+                            rows: [
+                                {
+                                    view: "search",
+                                    align: "left",
+                                    placeholder: "Search by user card",
+                                    id: "clientIDsearch",
+                                    width: 350
+                                },
+                                {
+                                    view: "dataview",
+                                    id: "dvclientIDsearch",
+                                    width: 350,
+                                    template: "#cardid#: #fname# #sname#, discount: #discount#%",
+                                    type: {
+                                        height: 90,
+                                        width: 350
+                                    },
+                                    url: webix.proxy('meteor', Clients),
+                                    select: 1
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        view: "fieldset",
+                        label: "Select cd movie",
+                        width: 350,
+                        body: {
+                            rows: [
+                                {
+                                    view: "search",
+                                    align: "left",
+                                    placeholder: "Search by movie name",
+                                    id: "movienamesearch",
+                                    width: 350
+                                },
+                                {
+                                    view: "dataview",
+                                    id: "dvMovieNamesearch",
+                                    width: 350,
+                                    template: "#mname#: now we have #mallnumnow# copies, price: #mpriceperday#",
+                                    type: {
+                                        height: 90,
+                                        width: 350
+                                    },
+                                    url: webix.proxy('meteor', CDCatalogue),
+                                    select: 1
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        rows:[
+                            {
+                                view: "fieldset",
+                                label: "Select seller",
+                                width: 350,
+                                body: {
+                                    view:"richselect",
+                                    name:"selectsellers",
+                                    id:"selectsellers",
+                                    options:[],
+                                    click:function() {
+                                        var list = $$("selectsellers").getPopup().getList();
+                                        list.parse(sellersForSelect());
+                                    }
+                                }
+                            },
+                            {
+                                view: "datepicker",
+                                name: "giveDate",
+                                label: "Date of Give",
+                                width: 350
+                            },
+                            {
+                                view: "button",
+                                value: "Make order",
+                                width: 200,
+                                click:function(){
+                                    //todo:add function with checkings, to OrderHistory
+                                }
                             }
                         ]
                     }
@@ -807,7 +922,8 @@
                 catalogueCdCell,
                 movieSearchCell,
                 sellersCell,
-                clientsCell
+                clientsCell,
+                giveCDCell
             ],
             width:"100%",
             height:"100%"
@@ -828,6 +944,33 @@
             })
         });
 
+        $$("sellerSearch").attachEvent("onTimedKeyPress",function(){
+            //get user input value
+            var value = this.getValue().toLowerCase();
+
+            $$("dvsellerSearch").filter(function(obj){
+                return obj.cardid.toLowerCase().indexOf(value)==0;
+            })
+        });
+
+        $$("clientIDsearch").attachEvent("onTimedKeyPress",function(){
+            //get user input value
+            var value = this.getValue().toLowerCase();
+
+            $$("dvclientIDsearch").filter(function(obj){
+                return obj.cardid.toLowerCase().indexOf(value)==0;
+            })
+        });
+
+        $$("movienamesearch").attachEvent("onTimedKeyPress",function(){
+            //get user input value
+            var value = this.getValue().toLowerCase();
+
+            $$("dvMovieNamesearch").filter(function(obj){
+                return obj.mname.toLowerCase().indexOf(value)==0;
+            })
+        });
+
     });
 
 </script>
@@ -838,4 +981,5 @@
 <div id="listCatalogue"></div>
 <div id="listClient"></div>
 <div id="listSimpleSearch"></div>
+<div id="listgivecd"></div>
 </body>

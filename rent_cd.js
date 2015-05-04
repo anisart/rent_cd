@@ -4,6 +4,7 @@ Actors = new Mongo.Collection('actors');
 Sellers = new Mongo.Collection('sellers');
 CDCatalogue = new Mongo.Collection('cdcatalogue');
 Clients = new Mongo.Collection('clients');
+OrderHistory = new Mongo.Collection('orderhistory');
 
 if (Meteor.isClient) {
     Meteor.subscribe('genresPub');
@@ -12,6 +13,7 @@ if (Meteor.isClient) {
     Meteor.subscribe('sellersPub');
     Meteor.subscribe('cdcataloguePub');
     Meteor.subscribe('clients');
+    Meteor.subscribe('orderhistory');
 
     genresForSelect = function() {
         return Genres.find({}).map( function (obj) {
@@ -33,6 +35,12 @@ if (Meteor.isClient) {
 
     directorsForSelect = function() {
         return Actors.find({}).map( function (obj) {
+            return {id: obj._id, value: obj.fname + " " + obj.sname};
+        })
+    };
+
+    sellersForSelect = function() {
+        return Sellers.find({}).map( function (obj) {
             return {id: obj._id, value: obj.fname + " " + obj.sname};
         })
     };
@@ -61,6 +69,10 @@ if (Meteor.isServer) {
 
     Meteor.publish('clients', function() {
         return Clients.find({});
+    });
+
+    Meteor.publish('orderhistory', function() {
+        return OrderHistory.find({});
     });
 
     Genres.allow({
