@@ -12,8 +12,8 @@ if (Meteor.isClient) {
     Meteor.subscribe('actorsPub');
     Meteor.subscribe('sellersPub');
     Meteor.subscribe('cdcataloguePub');
-    Meteor.subscribe('clients');
-    Meteor.subscribe('orderhistory');
+    Meteor.subscribe('clientsPub');
+    Meteor.subscribe('orderhistoryPub');
 
     genresForSelect = function() {
         return Genres.find({}).map( function (obj) {
@@ -67,11 +67,11 @@ if (Meteor.isServer) {
         return CDCatalogue.find({});
     });
 
-    Meteor.publish('clients', function() {
+    Meteor.publish('clientsPub', function() {
         return Clients.find({});
     });
 
-    Meteor.publish('orderhistory', function() {
+    Meteor.publish('orderhistoryPub', function() {
         return OrderHistory.find({});
     });
 
