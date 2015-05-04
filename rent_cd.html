@@ -28,6 +28,7 @@
                             type:"form",
                             align:"left",
                             click:function(){
+                                //todo:add check for inique
                                 var row = $$("listGenres").add({
                                     title:"New title"
                                 });
@@ -90,6 +91,7 @@
                             type:"form",
                             align:"left",
                             click:function(){
+                                //todo:add check for inique
                                 var row = $$("listMMakers").add({
                                     title:"New title"
                                 });
@@ -272,7 +274,7 @@
                             {},
                             {
                                 view:"button",
-                                value:"Delete Sellers",
+                                value:"Delete Seller",
                                 width:200,
                                 type:"danger",
                                 align:"right",
@@ -351,10 +353,137 @@
                                         value: "Save",
                                         width: 100,
                                         click:function(){
-                                            //add checking for unique spassport and npassport
+                                            //todo:add checking for unique spassport and npassport
                                             $$("formSellers").save();
                                         }
                                     }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        movieSearchCell =
+        {
+            header:"Simple Movie Search",
+            body:{
+                container:"listSimpleSearch",
+                type:"space",
+                rows:[
+                    {
+                        view:"toolbar",
+                        cols: [
+                        {
+                            view:"search",
+                            align:"center",
+                            placeholder:"Search..",
+                            id:"simplesearch",
+                            width: 300
+                        }]
+                    },
+                    {
+                        view:"dataview",
+                        id:"dvSimpleSearch",
+                        width: 500,
+                        template:"#mname#",
+                        type:{
+                            height: 90,
+                            width: 250
+                        },
+                        url:webix.proxy('meteor', CDCatalogue),
+                        select:1
+                    },
+                    {
+                        rows: [
+                            {
+                                view: "form",
+                                id: "formSearchCatalogue",
+                                scroll: true,
+                                width: 600,
+                                editable: false,//todo
+
+                                elements: [
+                                    {
+                                        view: "text",
+                                        name: "cdid",
+                                        label: "CD id"
+                                    },
+                                    {
+                                        view: "text",
+                                        name: "mname",
+                                        label: "Movie Name"
+                                    },
+                                    {
+                                        view: "text",
+                                        name: "mrate",
+                                        label: "Movie Rate"
+                                    },
+                                    {
+                                        view: "text",
+                                        name: "mallnum",
+                                        label: "All copies"
+                                    },
+                                    {
+                                        view: "text",
+                                        name: "mallnumnow",
+                                        label: "All copies for now",
+                                        editable: false,//todo: now do not work
+                                        step: 1,
+                                        min: 0
+                                    },
+                                    {
+                                        view: "text",
+                                        name: "mpriceperday",
+                                        label: "Price per day"
+                                    },
+                                        //do not need?
+                                    /*
+                                    {
+                                        view: "richselect",
+                                        id: "smgenres",
+                                        name: "mgenres",
+                                        label: "List of genres",
+                                        options: [],
+                                        click: function () {
+                                            var list = $$("smgenres").getPopup().getList();
+                                            list.parse(genresForSelect());
+                                        }
+                                    },
+                                    {
+                                        view: "richselect",
+                                        name: "mmoviemakers",
+                                        id: "smmoviemakers",
+                                        label: "List of movie makers",
+                                        options: [],
+                                        click: function () {
+                                            var list = $$("smmoviemakers").getPopup().getList();
+                                            list.parse(moviemakersForSelect());
+                                        }
+                                    },
+                                    {
+                                        view: "richselect",
+                                        name: "mactors",
+                                        id: "smactors",
+                                        label: "List of actors",
+                                        options: [],
+                                        click: function () {
+                                            var list = $$("smactors").getPopup().getList();
+                                            list.parse(actorsForSelect());
+                                        }
+                                    },
+                                    {
+                                        view: "richselect",
+                                        name: "mdirectors",
+                                        id: "smdirectors",
+                                        label: "List of directors",
+                                        options: [],
+                                        click: function () {
+                                            var list = $$("smdirectors").getPopup().getList();
+                                            list.parse(directorsForSelect());
+                                        }
+                                    }*/
                                 ]
                             }
                         ]
@@ -381,7 +510,10 @@
                                 type:"form",
                                 align:"left",
                                 click:function(){
+                                    var uniqueId = new Mongo.ObjectID;
+                                    uniqueId = uniqueId.valueOf();
                                     $$("editlistCatalogue").add({
+                                        cdid:uniqueId,
                                         mname:"", mrate:"",
                                         mallnum:0, mallnumnow:0, mpriceperday:"",
                                         mgenres:"", mmoviemakers:"",
@@ -432,13 +564,21 @@
                                         elements:[
                                             {
                                                 view:"text",
+                                                name:"cdid",
+                                                label:"CD id",
+                                                editable:false//todo:fix it
+                                            },
+                                            {
+                                                view:"text",
                                                 name:"mname",
                                                 label:"Movie Name"
                                             },
                                             {
-                                                view:"text",
+                                                view:"counter",
                                                 name:"mrate",
-                                                label:"Movie Rate"
+                                                label:"Movie Rate",
+                                                step: 1,
+                                                min: 0, max:10
                                             },
                                             {
                                                 view:"counter",
@@ -451,7 +591,7 @@
                                                 view:"text",
                                                 name:"mallnumnow",
                                                 label:"All copies for now",
-                                                //editable:false,//do not work
+                                                editable:false,//todo: now do not work
                                                 step:1,
                                                 min:0
                                             },
@@ -468,7 +608,7 @@
                                                 options:[],
                                                 click:function() {
                                                     var list = $$("mgenres").getPopup().getList();
-                                                        list.parse(genresForSelect());
+                                                    list.parse(genresForSelect());
                                                 }
                                             },
                                             {
@@ -511,7 +651,143 @@
                                         value: "Save",
                                         width: 100,
                                         click:function(){
+                                            //todo:at least one director
+                                            //todo:genre and movie maker can be set once
                                             $$("formCatalogue").save();
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        clientsCell =
+        {
+            header:"Clients",
+            body:{
+                container:"listClient",
+                type:"space",
+                rows:[
+                    {
+                        view:"toolbar",
+                        width:500,
+                        cols:[
+                            {
+                                view:"button",
+                                value:"Add New Client",
+                                width:200,
+                                type:"form",
+                                align:"left",
+                                click:function(){
+                                    var uniqueId = new Mongo.ObjectID;
+                                    uniqueId = uniqueId.valueOf();
+                                    $$("editlistClients").add({
+                                        cardid:uniqueId,
+                                        fname:"Firstname", sname:"Surname", pname:"",
+                                        spassport:"", npassport:"", ipassport:"", apassport:"",
+                                        discount:""
+                                    }, 0)
+                                }
+                            },
+                            {},
+                            {
+                                view:"button",
+                                value:"Delete Client",
+                                width:200,
+                                type:"danger",
+                                align:"right",
+                                click:function(){
+                                    var id = $$("editlistClients").getSelectedId();
+                                    if (id) {
+                                        $$("editlistClients").remove(id);
+                                    }
+                                    else
+                                        webix.message("Please select any row first");
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        cols:[
+                            {
+                                view:"editlist",
+                                id:"editlistClients",
+                                template:"#sname# #fname# #pname#",
+
+                                width:300,
+                                select:true,
+                                autoConfig:true,
+                                url:webix.proxy('meteor', Clients),
+                                save:webix.proxy('meteor', Clients)
+                            },
+                            {width:10},
+                            {
+                                rows:[
+                                    {
+                                        view:"form",
+                                        id:"formClients",
+                                        scroll:false,
+                                        width:600,
+                                        elements:[
+                                            {
+                                                view:"text",
+                                                name:"cardid",
+                                                label:"Card Number"
+                                            },
+                                            {
+                                                view:"text",
+                                                name:"sname",
+                                                label:"SurName"
+                                            },
+                                            {
+                                                view:"text",
+                                                name:"fname",
+                                                label:"FirstName"
+                                            },
+                                            {
+                                                view:"text",
+                                                name:"pname",
+                                                label:"PatronymicName"
+                                            },
+                                            {
+                                                view:"text",
+                                                name:"spassport",
+                                                label:"Passport series"
+                                            },
+                                            {
+                                                view:"text",
+                                                name:"npassport",
+                                                label:"Passport series"
+                                            },
+                                            {
+                                                view:"text",
+                                                name:"ipassport",
+                                                label:"Issuance of passport"
+                                            },
+                                            {
+                                                view:"text",
+                                                name:"apassport",
+                                                label:"Address"
+                                            },
+                                            {
+                                                view:"counter",
+                                                name:"discount",
+                                                label:"Personal discount(%)",
+                                                step:5,
+                                                min:0, max:100
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        view: "button",
+                                        value: "Save",
+                                        width: 100,
+                                        click:function(){
+                                            //todo: add checking for unique spassport and npassport
+                                            $$("formClients").save();
                                         }
                                     }
                                 ]
@@ -528,8 +804,10 @@
                 genresCell,
                 movieMakersCell,
                 actorsCell,
+                catalogueCdCell,
+                movieSearchCell,
                 sellersCell,
-                catalogueCdCell
+                clientsCell
             ],
             width:"100%",
             height:"100%"
@@ -538,6 +816,17 @@
         $$('formActors').bind('editlistActors');
         $$('formSellers').bind('editlistSellers');
         $$('formCatalogue').bind('editlistCatalogue');
+        $$('formClients').bind('editlistClients');
+        $$('formSearchCatalogue').bind('dvSimpleSearch');
+
+        $$("simplesearch").attachEvent("onTimedKeyPress",function(){
+            //get user input value
+            var value = this.getValue().toLowerCase();
+
+            $$("dvSimpleSearch").filter(function(obj){
+                return obj.mname.toLowerCase().indexOf(value)==0;
+            })
+        });
 
     });
 
@@ -547,4 +836,6 @@
 <div id="listActor"></div>
 <div id="listSeller"></div>
 <div id="listCatalogue"></div>
+<div id="listClient"></div>
+<div id="listSimpleSearch"></div>
 </body>

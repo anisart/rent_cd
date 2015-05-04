@@ -3,6 +3,7 @@ MovieMakers = new Mongo.Collection('moviemakers');
 Actors = new Mongo.Collection('actors');
 Sellers = new Mongo.Collection('sellers');
 CDCatalogue = new Mongo.Collection('cdcatalogue');
+Clients = new Mongo.Collection('clients');
 
 if (Meteor.isClient) {
     Meteor.subscribe('genresPub');
@@ -10,6 +11,7 @@ if (Meteor.isClient) {
     Meteor.subscribe('actorsPub');
     Meteor.subscribe('sellersPub');
     Meteor.subscribe('cdcataloguePub');
+    Meteor.subscribe('clients');
 
     genresForSelect = function() {
         return Genres.find({}).map( function (obj) {
@@ -57,6 +59,10 @@ if (Meteor.isServer) {
         return CDCatalogue.find({});
     });
 
+    Meteor.publish('clients', function() {
+        return Clients.find({});
+    });
+
     Genres.allow({
         insert: function () { return true; },
         update: function () { return true; },
@@ -82,6 +88,12 @@ if (Meteor.isServer) {
     });
 
     CDCatalogue.allow({
+        insert: function () { return true; },
+        update: function () { return true; },
+        remove: function () { return true; }
+    });
+
+    Clients.allow({
         insert: function () { return true; },
         update: function () { return true; },
         remove: function () { return true; }
