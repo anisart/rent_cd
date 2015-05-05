@@ -80,12 +80,14 @@ if (Meteor.isServer) {
         update: function () { return true; },
         remove: function () { return true; }
     });
+    Genres._ensureIndex({title: 1}, {unique: true});
 
     MovieMakers.allow({
         insert: function () { return true; },
         update: function () { return true; },
         remove: function () { return true; }
     });
+    MovieMakers._ensureIndex({title: 1}, {unique: true});
 
     Actors.allow({
         insert: function () { return true; },
@@ -98,6 +100,7 @@ if (Meteor.isServer) {
         update: function () { return true; },
         remove: function () { return true; }
     });
+    Sellers._ensureIndex({spassport: 1, npassport: 1}, {unique: true});
 
     CDCatalogue.allow({
         insert: function () { return true; },
@@ -110,5 +113,6 @@ if (Meteor.isServer) {
         update: function () { return true; },
         remove: function () { return true; }
     });
+    Clients._ensureIndex({spassport: 1, npassport: 1}, {unique: true});
 }
 

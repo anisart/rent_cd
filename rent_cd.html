@@ -28,7 +28,6 @@
                             type:"form",
                             align:"left",
                             click:function(){
-                                //todo:add check for inique
                                 var row = $$("listGenres").add({
                                     title:"New title"
                                 });
@@ -91,7 +90,6 @@
                             type:"form",
                             align:"left",
                             click:function(){
-                                //todo:add check for inique
                                 var row = $$("listMMakers").add({
                                     title:"New title"
                                 });
@@ -339,7 +337,7 @@
                                             {
                                                 view:"text",
                                                 name:"npassport",
-                                                label:"Passport series",
+                                                label:"Passport number",
                                                 labelWidth: 150
                                             },
                                             {
@@ -361,7 +359,6 @@
                                         value: "Save",
                                         width: 100,
                                         click:function(){
-                                            //todo:add checking for unique spassport and npassport
                                             $$("formSellers").save();
                                         }
                                     }
@@ -747,7 +744,7 @@
                                             {
                                                 view:"text",
                                                 name:"npassport",
-                                                label:"Passport series",
+                                                label:"Passport number",
                                                 labelWidth: 150
                                             },
                                             {
@@ -777,7 +774,6 @@
                                         value: "Save",
                                         width: 100,
                                         click:function(){
-                                            //todo: add checking for unique spassport and npassport
                                             $$("formClients").save();
                                         }
                                     }
@@ -930,14 +926,6 @@
 
             $$("dvSimpleSearch").filter(function(obj){
                 return obj.mname.toLowerCase().indexOf(value)==0;
-            })
-        });
-
-        $$("sellerSearch").attachEvent("onTimedKeyPress",function(){
-            var value = this.getValue().toLowerCase();
-
-            $$("dvsellerSearch").filter(function(obj){
-                return obj.cardid.toLowerCase().indexOf(value)==0;
             })
         });
 
