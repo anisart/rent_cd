@@ -227,7 +227,8 @@
                                                 view:"datepicker",
                                                 value:"1.2014.1",
                                                 name:"dateActor",
-                                                label:"Date of Birth"
+                                                label:"Date of Birth",
+                                                labelWidth: 100
                                             }
                                         ]
                                     },
@@ -314,37 +315,44 @@
                                             {
                                                 view:"text",
                                                 name:"sname",
-                                                label:"SurName"
+                                                label:"SurName",
+                                                labelWidth: 150
                                             },
                                             {
                                                 view:"text",
                                                 name:"fname",
-                                                label:"FirstName"
+                                                label:"FirstName",
+                                                labelWidth: 150
                                             },
                                             {
                                                 view:"text",
                                                 name:"pname",
-                                                label:"PatronymicName"
+                                                label:"PatronymicName",
+                                                labelWidth: 150
                                             },
                                             {
                                                 view:"text",
                                                 name:"spassport",
-                                                label:"Passport series"
+                                                label:"Passport series",
+                                                labelWidth: 150
                                             },
                                             {
                                                 view:"text",
                                                 name:"npassport",
-                                                label:"Passport series"
+                                                label:"Passport series",
+                                                labelWidth: 150
                                             },
                                             {
                                                 view:"text",
                                                 name:"ipassport",
-                                                label:"Issuance of passport"
+                                                label:"Issuance of passport",
+                                                labelWidth: 150
                                             },
                                             {
                                                 view:"text",
                                                 name:"apassport",
-                                                label:"Address"
+                                                label:"Address",
+                                                labelWidth: 150
                                             }
                                         ]
                                     },
@@ -403,88 +411,50 @@
                                 id: "formSearchCatalogue",
                                 scroll: true,
                                 width: 600,
-                                editable: false,//todo
 
                                 elements: [
                                     {
                                         view: "text",
                                         name: "cdid",
-                                        label: "CD id"
+                                        label: "CD id",
+                                        labelWidth: 150,
+                                        readonly:true
                                     },
                                     {
                                         view: "text",
                                         name: "mname",
-                                        label: "Movie Name"
+                                        label: "Movie Name",
+                                        labelWidth: 150,
+                                        readonly:true
                                     },
                                     {
                                         view: "text",
                                         name: "mrate",
-                                        label: "Movie Rate"
+                                        label: "Movie Rate",
+                                        labelWidth: 150,
+                                        readonly:true
                                     },
                                     {
                                         view: "text",
                                         name: "mallnum",
-                                        label: "All copies"
+                                        label: "All copies",
+                                        labelWidth: 150,
+                                        readonly:true
                                     },
                                     {
                                         view: "text",
                                         name: "mallnumnow",
                                         label: "All copies for now",
-                                        editable: false,//todo: now do not work
-                                        step: 1,
-                                        min: 0
+                                        labelWidth: 150,
+                                        readonly:true
                                     },
                                     {
                                         view: "text",
                                         name: "mpriceperday",
-                                        label: "Price per day"
-                                    },
-                                        //do not need?
-                                    /*
-                                    {
-                                        view: "richselect",
-                                        id: "smgenres",
-                                        name: "mgenres",
-                                        label: "List of genres",
-                                        options: [],
-                                        click: function () {
-                                            var list = $$("smgenres").getPopup().getList();
-                                            list.parse(genresForSelect());
-                                        }
-                                    },
-                                    {
-                                        view: "richselect",
-                                        name: "mmoviemakers",
-                                        id: "smmoviemakers",
-                                        label: "List of movie makers",
-                                        options: [],
-                                        click: function () {
-                                            var list = $$("smmoviemakers").getPopup().getList();
-                                            list.parse(moviemakersForSelect());
-                                        }
-                                    },
-                                    {
-                                        view: "richselect",
-                                        name: "mactors",
-                                        id: "smactors",
-                                        label: "List of actors",
-                                        options: [],
-                                        click: function () {
-                                            var list = $$("smactors").getPopup().getList();
-                                            list.parse(actorsForSelect());
-                                        }
-                                    },
-                                    {
-                                        view: "richselect",
-                                        name: "mdirectors",
-                                        id: "smdirectors",
-                                        label: "List of directors",
-                                        options: [],
-                                        click: function () {
-                                            var list = $$("smdirectors").getPopup().getList();
-                                            list.parse(directorsForSelect());
-                                        }
-                                    }*/
+                                        label: "Price per day",
+                                        labelWidth: 150,
+                                        readonly:true
+                                    }
                                 ]
                             }
                         ]
@@ -567,17 +537,20 @@
                                                 view:"text",
                                                 name:"cdid",
                                                 label:"CD id",
-                                                editable:false//todo:fix it
+                                                labelWidth: 150,
+                                                readonly:true
                                             },
                                             {
                                                 view:"text",
                                                 name:"mname",
-                                                label:"Movie Name"
+                                                label:"Movie Name",
+                                                labelWidth: 150
                                             },
                                             {
                                                 view:"counter",
                                                 name:"mrate",
                                                 label:"Movie Rate",
+                                                labelWidth: 150,
                                                 step: 1,
                                                 min: 0, max:10
                                             },
@@ -585,6 +558,7 @@
                                                 view:"counter",
                                                 name:"mallnum",
                                                 label:"All copies",
+                                                labelWidth: 150,
                                                 step:1,
                                                 min:0
                                             },
@@ -592,20 +566,23 @@
                                                 view:"text",
                                                 name:"mallnumnow",
                                                 label:"All copies for now",
-                                                editable:false,//todo: now do not work
+                                                labelWidth: 150,
+                                                readonly:true,
                                                 step:1,
                                                 min:0
                                             },
                                             {
                                                 view:"text",
                                                 name:"mpriceperday",
-                                                label:"Price per day"
+                                                label:"Price per day",
+                                                labelWidth: 150
                                             },
                                             {
                                                 view:"richselect",
                                                 id:"mgenres",
                                                 name:"mgenres",
                                                 label:"List of genres",
+                                                labelWidth: 150,
                                                 options:[],
                                                 click:function() {
                                                     var list = $$("mgenres").getPopup().getList();
@@ -617,6 +594,7 @@
                                                 name:"mmoviemakers",
                                                 id:"mmoviemakers",
                                                 label:"List of movie makers",
+                                                labelWidth: 150,
                                                 options:[],
                                                 click:function() {
                                                     var list = $$("mmoviemakers").getPopup().getList();
@@ -628,6 +606,7 @@
                                                 name:"mactors",
                                                 id:"mactors",
                                                 label:"List of actors",
+                                                labelWidth: 150,
                                                 options:[],
                                                 click:function() {
                                                     var list = $$("mactors").getPopup().getList();
@@ -639,6 +618,7 @@
                                                 name:"mdirectors",
                                                 id:"mdirectors",
                                                 label:"List of directors",
+                                                labelWidth: 150,
                                                 options:[],
                                                 click:function() {
                                                     var list = $$("mdirectors").getPopup().getList();
@@ -736,47 +716,57 @@
                                             {
                                                 view:"text",
                                                 name:"cardid",
-                                                label:"Card Number"
+                                                label:"Card Number",
+                                                labelWidth: 150,
+                                                readonly:true
                                             },
                                             {
                                                 view:"text",
                                                 name:"sname",
-                                                label:"SurName"
+                                                label:"SurName",
+                                                labelWidth: 150
                                             },
                                             {
                                                 view:"text",
                                                 name:"fname",
-                                                label:"FirstName"
+                                                label:"FirstName",
+                                                labelWidth: 150
                                             },
                                             {
                                                 view:"text",
                                                 name:"pname",
-                                                label:"PatronymicName"
+                                                label:"PatronymicName",
+                                                labelWidth: 150
                                             },
                                             {
                                                 view:"text",
                                                 name:"spassport",
-                                                label:"Passport series"
+                                                label:"Passport series",
+                                                labelWidth: 150
                                             },
                                             {
                                                 view:"text",
                                                 name:"npassport",
-                                                label:"Passport series"
+                                                label:"Passport series",
+                                                labelWidth: 150
                                             },
                                             {
                                                 view:"text",
                                                 name:"ipassport",
-                                                label:"Issuance of passport"
+                                                label:"Issuance of passport",
+                                                labelWidth: 150
                                             },
                                             {
                                                 view:"text",
                                                 name:"apassport",
-                                                label:"Address"
+                                                label:"Address",
+                                                labelWidth: 150
                                             },
                                             {
                                                 view:"counter",
                                                 name:"discount",
                                                 label:"Personal discount(%)",
+                                                labelWidth: 150,
                                                 step:5,
                                                 min:0, max:100
                                             }
@@ -936,7 +926,6 @@
         $$('formSearchCatalogue').bind('dvSimpleSearch');
 
         $$("simplesearch").attachEvent("onTimedKeyPress",function(){
-            //get user input value
             var value = this.getValue().toLowerCase();
 
             $$("dvSimpleSearch").filter(function(obj){
@@ -945,7 +934,6 @@
         });
 
         $$("sellerSearch").attachEvent("onTimedKeyPress",function(){
-            //get user input value
             var value = this.getValue().toLowerCase();
 
             $$("dvsellerSearch").filter(function(obj){
@@ -954,7 +942,6 @@
         });
 
         $$("clientIDsearch").attachEvent("onTimedKeyPress",function(){
-            //get user input value
             var value = this.getValue().toLowerCase();
 
             $$("dvclientIDsearch").filter(function(obj){
@@ -963,7 +950,6 @@
         });
 
         $$("movienamesearch").attachEvent("onTimedKeyPress",function(){
-            //get user input value
             var value = this.getValue().toLowerCase();
 
             $$("dvMovieNamesearch").filter(function(obj){
