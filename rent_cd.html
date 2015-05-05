@@ -783,7 +783,7 @@
                                 view:"editlist",
                                 id:"listClientHistory",
                                 //todo: make normal template
-                                //template:"#title#",
+                                template:"#mcd#",
                                 url:webix.proxy('meteor', OrderHistory),
                                 save:webix.proxy('meteor', OrderHistory),
 
@@ -882,6 +882,7 @@
                             {
                                 view: "datepicker",
                                 name: "giveDate",
+                                id: "giveDate",
                                 label: "Date of Give",
                                 width: 350
                             },
@@ -890,7 +891,20 @@
                                 value: "Make order",
                                 width: 200,
                                 click:function(){
-                                    //todo:add function with checkings, to OrderHistory
+                                    //todo: checkings and sum
+                                    var cd = $$("dvMovieNamesearch").getSelectedId();
+                                    var client = $$("dvclientIDsearch").getSelectedId();
+                                    var seller = $$("selectsellers").getValue();
+                                    var startDate = new Date();
+                                    var endDate = $$("giveDate").getValue();
+                                    OrderHistory.insert({
+                                        mcd: cd,
+                                        mclient: client,
+                                        mseller: seller,
+                                        mstartdate: startDate,
+                                        menddate: endDate,
+                                        msum: 0
+                                    });
                                 }
                             }
                         ]

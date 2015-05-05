@@ -114,5 +114,11 @@ if (Meteor.isServer) {
         remove: function () { return true; }
     });
     Clients._ensureIndex({spassport: 1, npassport: 1}, {unique: true});
+
+    OrderHistory.allow({
+        insert: function () { return true; },
+        update: function () { return true; },
+        remove: function () { return true; }
+    });
 }
 
