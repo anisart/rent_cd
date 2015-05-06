@@ -670,7 +670,7 @@
                                         cardid:uniqueId,
                                         fname:"Firstname", sname:"Surname", pname:"",
                                         spassport:"", npassport:"", ipassport:"", apassport:"",
-                                        discount:""
+                                        discount:"", balans:0
                                     }, 0)
                                 }
                             },
@@ -711,7 +711,7 @@
                                     {
                                         view:"form",
                                         id:"formClients",
-                                        scroll:false,
+                                        scroll:true,
                                         width:600,
                                         elements:[
                                             {
@@ -770,6 +770,14 @@
                                                 labelWidth: 150,
                                                 step:5,
                                                 min:0, max:100
+                                            },
+                                            {
+                                                view:"counter",
+                                                name:"balans",
+                                                label:"Personal balans",
+                                                labelWidth: 150,
+                                                step:5,
+                                                min:0
                                             }
                                         ]
                                     },
@@ -901,19 +909,28 @@
                                 value: "Make order",
                                 width: 200,
                                 click: function () {
-                                    //todo: checkings and sum
                                     var cd = $$("dvMovieNamesearch").getSelectedId();
                                     var client = $$("dvclientIDsearch").getSelectedId();
                                     var seller = $$("selectsellers").getValue();
                                     var startDate = $$("giveDate").getValue();
-                                    OrderHistory.insert({
-                                        mcd: cd,
-                                        mclient: client,
-                                        mseller: seller,
-                                        mstartdate: startDate,
-                                        menddate: 0,
-                                        msum: 0
-                                    });
+                                    var clientBalans = Clients.findOne({_id:client}).balans;
+                                    //todo:add check sum of oredered cd from client
+                                    //todo:add check for sum of cd now for rent
+                                    if (clientBalans > 0) {
+                                        OrderHistory.insert({
+                                            mcd: cd,
+                                            mclient: client,
+                                            mseller: seller,
+                                            mstartdate: startDate,
+                                            menddate: 0,
+                                            msum: 0
+                                        });
+                                        webix.message("Order is made");
+                                        //todo:clear all selections
+                                    }
+                                    else {
+                                        webix.message("Client has negative balans, can't make order");
+                                    }
                                 }
                             }
                         ]
@@ -968,6 +985,7 @@
                                 value: "Make return",
                                 width: 200,
                                 click:function() {
+                                    //todo:add sum of order
                                     var orderID = $$("editlistOrders").getSelectedId();
                                     if (OrderHistory.findOne({_id:orderID}).menddate != 0)
                                         webix.message("Cd have already been returned");
