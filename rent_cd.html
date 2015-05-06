@@ -791,17 +791,18 @@
                                     }
                                 ]
                             },
+                            {width:10},
                             {
                                 view:"list",
                                 id:"listClientHistory",
-                                //todo: make normal template
-                                template:"#mcd#",
-                                url:webix.proxy('meteor', OrderHistory),
-                                save:webix.proxy('meteor', OrderHistory),
-
-                                editable:false,
-                                navigation:true,
-                                select:"cell",
+                                template:function (obj) {
+                                    var title = CDCatalogue.findOne({_id:obj.mcd}).mname;
+                                    if (obj.menddate == 0)
+                                        return title;
+                                    else
+                                        return title + " (was returned)";
+                                },
+                                url:  webix.proxy('meteor', OrderHistory),
                                 width:300
                             }
                         ]
@@ -1028,6 +1029,9 @@
         $$('formSellers').bind('editlistSellers');
         $$('formCatalogue').bind('editlistCatalogue');
         $$('formClients').bind('editlistClients');
+        $$('listClientHistory').bind($$('editlistClients'), function(obj, filter) {
+            return obj.mclient == filter.id;
+        });
         $$('formSearchCatalogue').bind('dvSimpleSearch');
 
         $$("simplesearch").attachEvent("onTimedKeyPress",function(){
