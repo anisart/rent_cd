@@ -863,34 +863,40 @@
                         }
                     },
                     {
-                        rows:[
+                        rows: [
                             {
                                 view: "fieldset",
                                 label: "Select seller",
                                 width: 350,
                                 body: {
-                                    view:"richselect",
-                                    name:"selectsellers",
-                                    id:"selectsellers",
-                                    options:[],
-                                    click:function() {
-                                        var list = $$("selectsellers").getPopup().getList();
-                                        list.parse(sellersForSelect());
-                                    }
+                                    rows: [
+                                        {
+                                            view: "richselect",
+                                            name: "selectsellers",
+                                            id: "selectsellers",
+                                            options: [],
+                                            click: function () {
+                                                var list = $$("selectsellers").getPopup().getList();
+                                                list.parse(sellersForSelect());
+                                            }
+
+                                        },
+                                        {
+                                            view: "datepicker",
+                                            name: "giveDate",
+                                            id: "giveDate",
+                                            label: "Date of Give",
+                                            labelWidth: 100,
+                                            width: 350
+                                        }
+                                    ]
                                 }
-                            },
-                            {
-                                view: "datepicker",
-                                name: "giveDate",
-                                id: "giveDate",
-                                label: "Date of Give",
-                                width: 350
                             },
                             {
                                 view: "button",
                                 value: "Make order",
                                 width: 200,
-                                click:function(){
+                                click: function () {
                                     //todo: checkings and sum
                                     var cd = $$("dvMovieNamesearch").getSelectedId();
                                     var client = $$("dvclientIDsearch").getSelectedId();
@@ -925,6 +931,9 @@
                 clientsCell,
                 giveCDCell
             ],
+            tabbar: {
+                height: 60
+            },
             width:"100%",
             height:"100%"
         });
