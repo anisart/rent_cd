@@ -884,6 +884,7 @@
                                 name: "giveDate",
                                 id: "giveDate",
                                 label: "Date of Give",
+                                value:new Date(),
                                 width: 350
                             },
                             {
@@ -895,19 +896,65 @@
                                     var cd = $$("dvMovieNamesearch").getSelectedId();
                                     var client = $$("dvclientIDsearch").getSelectedId();
                                     var seller = $$("selectsellers").getValue();
-                                    var startDate = new Date();
-                                    var endDate = $$("giveDate").getValue();
+                                    var startDate = $$("giveDate").getValue();
+                                    //var endDate = $$("giveDate").getValue();
                                     OrderHistory.insert({
                                         mcd: cd,
                                         mclient: client,
                                         mseller: seller,
-                                        mstartdate: startDate,
-                                        menddate: endDate,
-                                        msum: 0
+                                        mstartdate: startDate
                                     });
                                 }
                             }
                         ]
+                    }
+                ]
+            }
+        };
+
+        returnCDCell =
+        {
+            header:"Return CD",
+            body:{
+                container:"listreturncd",
+                type:"space",
+                height:"100%",
+                cols:[
+                    {
+                        view:"editlist",
+                        id:"editlistOrders",
+                        template:"#mcd# #mclient# #mseller#",
+
+                        width:300,
+                        select:true,
+                        autoConfig:true,
+                        url:webix.proxy('meteor', OrderHistory),
+                            //url:function() {
+                            //var list = $$("mgenres").getPopup().getList();
+                            //list.parse(genresForSelect());
+                            //},
+                        save:webix.proxy('meteor', OrderHistory)
+                    },
+                    {
+                        view: "datepicker",
+                        name: "returnDate",
+                        id: "returnDate",
+                        label: "Date of Return",
+                        value:new Date(),
+                        width: 350
+                    },
+                    {
+                        view: "button",
+                        value: "Make return",
+                        width: 200,
+                        click:function(){
+                            var orderID = $$("editlistOrders").getSelectedId();
+                            var endDate = $$("returnDate").getValue();
+                            OrderHistory.update({
+                                id: orderID,
+                                menddate: endDate
+                            });
+                        }
                     }
                 ]
             }
@@ -923,7 +970,8 @@
                 movieSearchCell,
                 sellersCell,
                 clientsCell,
-                giveCDCell
+                giveCDCell,
+                returnCDCell
             ],
             width:"100%",
             height:"100%"
@@ -970,4 +1018,5 @@
 <div id="listClient"></div>
 <div id="listSimpleSearch"></div>
 <div id="listgivecd"></div>
+<div id="listreturncd"></div>
 </body>
