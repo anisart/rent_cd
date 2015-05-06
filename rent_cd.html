@@ -631,6 +631,10 @@
                                         click:function(){
                                             //todo:at least one director
                                             //todo:genre and movie maker can be set once
+                                            //var id = $$("editlistCatalogue").getSelectedId();
+                                            //var genresFromID = CDCatalogue.findOne({_id:id}).map( function (obj) {
+                                            //    return {id: obj._id, value: obj.mgenres};
+                                            //})();
                                             $$("formCatalogue").save();
                                         }
                                     }
@@ -897,12 +901,12 @@
                                     var client = $$("dvclientIDsearch").getSelectedId();
                                     var seller = $$("selectsellers").getValue();
                                     var startDate = $$("giveDate").getValue();
-                                    //var endDate = $$("giveDate").getValue();
                                     OrderHistory.insert({
                                         mcd: cd,
                                         mclient: client,
                                         mseller: seller,
-                                        mstartdate: startDate
+                                        mstartdate: startDate,
+                                        menddate: 0
                                     });
                                 }
                             }
@@ -921,18 +925,21 @@
                 height:"100%",
                 cols:[
                     {
-                        view:"editlist",
+                        view:"list",
                         id:"editlistOrders",
-                        template:"#mcd# #mclient# #mseller#",
+                        template:function (obj) {
+                            if (obj.menddate == 0)
+                                return CDCatalogue.findOne({_id:obj.mcd}).title + " " +
+                                Clients.findOne({_id:obj.mclient}).fname + " " +
+                                Clients.findOne({_id:obj.mclient}).sname;
+                            else
+                                return "cd was returned";
+                        },
 
                         width:300,
                         select:true,
                         autoConfig:true,
                         url:webix.proxy('meteor', OrderHistory),
-                            //url:function() {
-                            //var list = $$("mgenres").getPopup().getList();
-                            //list.parse(genresForSelect());
-                            //},
                         save:webix.proxy('meteor', OrderHistory)
                     },
                     {
@@ -948,12 +955,16 @@
                         value: "Make return",
                         width: 200,
                         click:function(){
-                            var orderID = $$("editlistOrders").getSelectedId();
-                            var endDate = $$("returnDate").getValue();
-                            OrderHistory.update({
-                                id: orderID,
-                                menddate: endDate
-                            });
+                            if (obj.menddate != 0)
+                                webix.message("Cd have already been returned");
+                            else {
+                                var orderID = $$("editlistOrders").getSelectedId();
+                                var endDate = $$("returnDate").getValue();
+                                OrderHistory.update(
+                                        {_id: orderID},
+                                        {$set: {menddate: endDate}}
+                                );
+                            }
                         }
                     }
                 ]
