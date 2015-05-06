@@ -867,35 +867,40 @@
                         }
                     },
                     {
-                        rows:[
+                        rows: [
                             {
                                 view: "fieldset",
                                 label: "Select seller",
                                 width: 350,
                                 body: {
-                                    view:"richselect",
-                                    name:"selectsellers",
-                                    id:"selectsellers",
-                                    options:[],
-                                    click:function() {
-                                        var list = $$("selectsellers").getPopup().getList();
-                                        list.parse(sellersForSelect());
-                                    }
+                                    rows: [
+                                        {
+                                            view: "richselect",
+                                            name: "selectsellers",
+                                            id: "selectsellers",
+                                            options: [],
+                                            click: function () {
+                                                var list = $$("selectsellers").getPopup().getList();
+                                                list.parse(sellersForSelect());
+                                            }
+
+                                        },
+                                        {
+                                            view: "datepicker",
+                                            name: "giveDate",
+                                            id: "giveDate",
+                                            label: "Date of Give",
+                                            labelWidth: 150,
+                                            width: 350
+                                        }
+                                    ]
                                 }
-                            },
-                            {
-                                view: "datepicker",
-                                name: "giveDate",
-                                id: "giveDate",
-                                label: "Date of Give",
-                                value:new Date(),
-                                width: 350
                             },
                             {
                                 view: "button",
                                 value: "Make order",
                                 width: 200,
-                                click:function(){
+                                click: function () {
                                     //todo: checkings and sum
                                     var cd = $$("dvMovieNamesearch").getSelectedId();
                                     var client = $$("dvclientIDsearch").getSelectedId();
@@ -906,7 +911,8 @@
                                         mclient: client,
                                         mseller: seller,
                                         mstartdate: startDate,
-                                        menddate: 0
+                                        menddate: 0,
+                                        msum: 0
                                     });
                                 }
                             }
@@ -943,29 +949,38 @@
                         save:webix.proxy('meteor', OrderHistory)
                     },
                     {
-                        view: "datepicker",
-                        name: "returnDate",
-                        id: "returnDate",
-                        label: "Date of Return",
-                        value:new Date(),
-                        width: 350
-                    },
-                    {
-                        view: "button",
-                        value: "Make return",
-                        width: 200,
-                        click:function(){
-                            if (obj.menddate != 0)
-                                webix.message("Cd have already been returned");
-                            else {
-                                var orderID = $$("editlistOrders").getSelectedId();
-                                var endDate = $$("returnDate").getValue();
-                                OrderHistory.update(
-                                        {_id: orderID},
-                                        {$set: {menddate: endDate}}
-                                );
+                        rows: [
+                            {
+                                view: "fieldset",
+                                width: 350,
+                                body:{
+                                    view: "datepicker",
+                                    name: "returnDate",
+                                    id: "returnDate",
+                                    label: "Date of Return",
+                                    value: new Date(),
+                                    labelWidth: 150,
+                                    width: 350
+                                }
+                            },
+                            {
+                                view: "button",
+                                value: "Make return",
+                                width: 200,
+                                click:function() {
+                                    var orderID = $$("editlistOrders").getSelectedId();
+                                    if (OrderHistory.findOne({_id:orderID}).menddate != 0)
+                                        webix.message("Cd have already been returned");
+                                    else {
+                                        var endDate = $$("returnDate").getValue();
+                                        OrderHistory.update(
+                                                {_id: orderID},
+                                                {$set: {menddate: endDate}}
+                                        );
+                                    }
+                                }
                             }
-                        }
+                        ]
                     }
                 ]
             }
@@ -984,6 +999,9 @@
                 giveCDCell,
                 returnCDCell
             ],
+            tabbar: {
+                height: 60
+            },
             width:"100%",
             height:"100%"
         });
