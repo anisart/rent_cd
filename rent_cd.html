@@ -482,8 +482,8 @@
                                     uniqueId = uniqueId.valueOf();
                                     $$("editlistCatalogue").add({
                                         cdid:uniqueId,
-                                        mname:"", mrate:"",
-                                        mallnum:0, mallnumnow:0, mpriceperday:"",
+                                        mname:"New film", mrate:0,
+                                        mallnum:0, mallnumnow:0, mpriceperday:0,
                                         mgenres:"", mmoviemakers:"",
                                         mactors:"", mdirectors:""
                                     },0)
@@ -560,19 +560,21 @@
                                                 min:0
                                             },
                                             {
-                                                view:"text",
+                                                view:"counter",
                                                 name:"mallnumnow",
                                                 label:"All copies for now",
                                                 labelWidth: 150,
-                                                readonly:true,
+                                                //todo:add automatical change when change mallnum
                                                 step:1,
                                                 min:0
                                             },
                                             {
-                                                view:"text",
+                                                view:"counter",
                                                 name:"mpriceperday",
                                                 label:"Price per day",
-                                                labelWidth: 150
+                                                labelWidth: 150,
+                                                step:1,
+                                                min:0
                                             },
                                             {
                                                 view:"richselect",
@@ -899,6 +901,7 @@
                                             name: "giveDate",
                                             id: "giveDate",
                                             label: "Date of Give",
+                                            value: new Date(),
                                             labelWidth: 150,
                                             width: 350
                                         }
@@ -915,20 +918,29 @@
                                     var seller = $$("selectsellers").getValue();
                                     var startDate = $$("giveDate").getValue();
                                     var clientBalans = Clients.findOne({_id:client}).balans;
-                                    var availableCDnum = CDCatalogue.findOne({_id:cd});
+                                    var availableCDnum = CDCatalogue.findOne({_id:cd}).mallnumnow;
                                     //todo:add check sum of oredered cd from client
                                     //todo:add check for sum of cd now for rent
                                     if (clientBalans > 0) {
-                                        OrderHistory.insert({
-                                            mcd: cd,
-                                            mclient: client,
-                                            mseller: seller,
-                                            mstartdate: startDate,
-                                            menddate: 0,
-                                            msum: 0
-                                        });
-                                        webix.message("Order is made");
-                                        //todo:clear all selections
+                                        if (availableCDnum > 0) {
+                                            OrderHistory.insert({
+                                                mcd: cd,
+                                                mclient: client,
+                                                mseller: seller,
+                                                mstartdate: startDate,
+                                                menddate: 0,
+                                                msum: 0
+                                            });
+                                            CDCatalogue.update(
+                                                {_id: cd},
+                                                {$inc: {mallnumnow: -1}}
+                                            );
+                                            webix.message("Order is made");
+                                            //todo:clear all selections
+                                        }
+                                        else{
+                                            webix.message("No more copies of this movie, can't make order");
+                                        }
                                     }
                                     else {
                                         webix.message("Client has negative balans, can't make order");
@@ -996,6 +1008,12 @@
                                         OrderHistory.update(
                                                 {_id: orderID},
                                                 {$set: {menddate: endDate}}
+                                        );
+
+                                        var cdId = OrderHistory.findOne({_id:orderID}).mcd;
+                                        CDCatalogue.update(
+                                                {_id: cdId},
+                                                {$inc: {mallnumnow: +1}}
                                         );
                                     }
                                 }
