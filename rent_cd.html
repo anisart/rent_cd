@@ -961,6 +961,7 @@
                                                 {_id: cd},
                                                 {$inc: {mallnumnow: -1}}
                                             );
+                                            Log.insert({date: startDate, type: "giveCD", value: 1});
                                             webix.message("Order is made");
                                             //todo:clear all selections
                                         }
@@ -1008,14 +1009,17 @@
                                     var client = $$("dvclientIDsearch").getSelectedId();
                                     var amount = $$("moneyCount").getValue();
                                     var refillDate = $$("refillDate").getValue();
-                                    Clients.update({_id: client}, {$inc: {balance: amount}}, function(error, _id) {
-                                        if (_id) {
-                                            $$("moneyCount").setValue(0);
-                                            webix.message("Yout balance has been refilled for " + amount);
-                                        } else {
-                                            webix.message("Refill error");
-                                        }
-                                    });
+                                    if (amount != 0) {
+                                        Clients.update({_id: client}, {$inc: {balance: amount}}, function (error, _id) {
+                                            if (_id) {
+                                                Log.insert({date: refillDate, type: "refill", value: amount});
+                                                $$("moneyCount").setValue(0);
+                                                webix.message("Yout balance has been refilled for " + amount);
+                                            } else {
+                                                webix.message("Refill error");
+                                            }
+                                        });
+                                    }
                                 }
                             }
                         ]
@@ -1096,6 +1100,8 @@
                                                 {_id: clientId},
                                                 {$inc: {balance: -fullSum}}
                                         );
+                                        Log.insert({date: endDate, type: "returnCD", value: 1});
+                                        Log.insert({date: endDate, type: "expense", value: fullSum});
                                     }
                                 }
                             }

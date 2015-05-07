@@ -5,6 +5,7 @@ Sellers = new Mongo.Collection('sellers');
 CDCatalogue = new Mongo.Collection('cdcatalogue');
 Clients = new Mongo.Collection('clients');
 OrderHistory = new Mongo.Collection('orderhistory');
+Log = new Mongo.Collection('log');
 
 if (Meteor.isClient) {
     Meteor.subscribe('genresPub');
@@ -14,6 +15,7 @@ if (Meteor.isClient) {
     Meteor.subscribe('cdcataloguePub');
     Meteor.subscribe('clientsPub');
     Meteor.subscribe('orderhistoryPub');
+    Meteor.subscribe('logPub');
 
     genresForSelect = function() {
         return Genres.find({}).map( function (obj) {
@@ -75,6 +77,10 @@ if (Meteor.isServer) {
         return OrderHistory.find({});
     });
 
+    Meteor.publish('logPub', function() {
+        return Log.find({});
+    });
+
     Genres.allow({
         insert: function () { return true; },
         update: function () { return true; },
@@ -116,6 +122,12 @@ if (Meteor.isServer) {
     Clients._ensureIndex({spassport: 1, npassport: 1}, {unique: true});
 
     OrderHistory.allow({
+        insert: function () { return true; },
+        update: function () { return true; },
+        remove: function () { return true; }
+    });
+
+    Log.allow({
         insert: function () { return true; },
         update: function () { return true; },
         remove: function () { return true; }
