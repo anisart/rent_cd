@@ -206,29 +206,35 @@
                             {
                                 rows:[
                                     {
-                                        view:"form",
-                                        id:"formActors",
-                                        scroll:false,
-                                        width:600,
-                                        elements:[
-                                            {
-                                                view:"text",
-                                                name:"fname",
-                                                label:"FirstName"
-                                            },
-                                            {
-                                                view:"text",
-                                                name:"sname",
-                                                label:"SurName"
-                                            },
-                                            {
-                                                view:"datepicker",
-                                                value:"1.2014.1",
-                                                name:"dateActor",
-                                                label:"Date of Birth",
-                                                labelWidth: 100
-                                            }
-                                        ]
+                                        view: "fieldset",
+                                        label: "Person info",
+                                        body: {
+                                            view: "form",
+                                            id: "formActors",
+                                            scroll: true,
+                                            width: 600,
+                                            elements: [
+                                                {
+                                                    view: "text",
+                                                    name: "fname",
+                                                    label: "FirstName",
+                                                    labelWidth: 100
+                                                },
+                                                {
+                                                    view: "text",
+                                                    name: "sname",
+                                                    label: "SurName",
+                                                    labelWidth: 100
+                                                },
+                                                {
+                                                    view: "datepicker",
+                                                    value: "1.2014.1",
+                                                    name: "dateActor",
+                                                    label: "Date of Birth",
+                                                    labelWidth: 100
+                                                }
+                                            ]
+                                        }
                                     },
                                     {
                                         view: "button",
@@ -305,54 +311,58 @@
                             {
                                 rows:[
                                     {
-                                        view:"form",
-                                        id:"formSellers",
-                                        scroll:false,
-                                        width:600,
-                                        elements:[
-                                            {
-                                                view:"text",
-                                                name:"sname",
-                                                label:"SurName",
-                                                labelWidth: 150
-                                            },
-                                            {
-                                                view:"text",
-                                                name:"fname",
-                                                label:"FirstName",
-                                                labelWidth: 150
-                                            },
-                                            {
-                                                view:"text",
-                                                name:"pname",
-                                                label:"PatronymicName",
-                                                labelWidth: 150
-                                            },
-                                            {
-                                                view:"text",
-                                                name:"spassport",
-                                                label:"Passport series",
-                                                labelWidth: 150
-                                            },
-                                            {
-                                                view:"text",
-                                                name:"npassport",
-                                                label:"Passport number",
-                                                labelWidth: 150
-                                            },
-                                            {
-                                                view:"text",
-                                                name:"ipassport",
-                                                label:"Issuance of passport",
-                                                labelWidth: 150
-                                            },
-                                            {
-                                                view:"text",
-                                                name:"apassport",
-                                                label:"Address",
-                                                labelWidth: 150
-                                            }
-                                        ]
+                                        view: "fieldset",
+                                        label: "Seller info",
+                                        body: {
+                                            view: "form",
+                                            id: "formSellers",
+                                            scroll: false,
+                                            width: 600,
+                                            elements: [
+                                                {
+                                                    view: "text",
+                                                    name: "sname",
+                                                    label: "SurName",
+                                                    labelWidth: 150
+                                                },
+                                                {
+                                                    view: "text",
+                                                    name: "fname",
+                                                    label: "FirstName",
+                                                    labelWidth: 150
+                                                },
+                                                {
+                                                    view: "text",
+                                                    name: "pname",
+                                                    label: "PatronymicName",
+                                                    labelWidth: 150
+                                                },
+                                                {
+                                                    view: "text",
+                                                    name: "spassport",
+                                                    label: "Passport series",
+                                                    labelWidth: 150
+                                                },
+                                                {
+                                                    view: "text",
+                                                    name: "npassport",
+                                                    label: "Passport number",
+                                                    labelWidth: 150
+                                                },
+                                                {
+                                                    view: "text",
+                                                    name: "ipassport",
+                                                    label: "Issuance of passport",
+                                                    labelWidth: 150
+                                                },
+                                                {
+                                                    view: "text",
+                                                    name: "apassport",
+                                                    label: "Address",
+                                                    labelWidth: 150
+                                                }
+                                            ]
+                                        }
                                     },
                                     {
                                         view: "button",
@@ -524,120 +534,124 @@
                             {
                                 rows:[
                                     {
-                                        view:"form",
-                                        id:"formCatalogue",
-                                        scroll:true,
-                                        width:600,
+                                        view: "fieldset",
+                                        label: "CD info",
+                                        body: {
+                                            view: "form",
+                                            id: "formCatalogue",
+                                            scroll: true,
+                                            width: 600,
 
-                                        elements:[
-                                            {
-                                                view:"text",
-                                                name:"cdid",
-                                                label:"CD id",
-                                                labelWidth: 150,
-                                                readonly:true
-                                            },
-                                            {
-                                                view:"text",
-                                                name:"mname",
-                                                label:"Movie Name",
-                                                labelWidth: 150
-                                            },
-                                            {
-                                                view:"counter",
-                                                name:"mrate",
-                                                label:"Movie Rate",
-                                                labelWidth: 150,
-                                                step: 1,
-                                                min: 0, max:10
-                                            },
-                                            {
-                                                view:"counter",
-                                                name:"mallnum",
-                                                label:"All copies",
-                                                labelWidth: 150,
-                                                step:1,
-                                                min:0
-                                            },
-                                            {
-                                                view:"counter",
-                                                name:"mallnumnow",
-                                                label:"All copies for now",
-                                                labelWidth: 150,
-                                                //todo:add automatical change when change mallnum
-                                                step:1,
-                                                min:0
-                                            },
-                                            {
-                                                view:"counter",
-                                                name:"mpriceperday",
-                                                label:"Price per day",
-                                                labelWidth: 150,
-                                                step:1,
-                                                min:0
-                                            },
-                                            {
-                                                view:"richselect",
-                                                id:"mgenres",
-                                                name:"mgenres",
-                                                label:"List of genres",
-                                                labelWidth: 150,
-                                                options:[],
-                                                click:function() {
-                                                    var list = $$("mgenres").getPopup().getList();
-                                                    list.parse(genresForSelect());
+                                            elements: [
+                                                {
+                                                    view: "text",
+                                                    name: "cdid",
+                                                    label: "CD id",
+                                                    labelWidth: 150,
+                                                    readonly: true
+                                                },
+                                                {
+                                                    view: "text",
+                                                    name: "mname",
+                                                    label: "Movie Name",
+                                                    labelWidth: 150
+                                                },
+                                                {
+                                                    view: "counter",
+                                                    name: "mrate",
+                                                    label: "Movie Rate",
+                                                    labelWidth: 150,
+                                                    step: 1,
+                                                    min: 0, max: 10
+                                                },
+                                                {
+                                                    view: "counter",
+                                                    name: "mallnum",
+                                                    label: "All copies",
+                                                    labelWidth: 150,
+                                                    step: 1,
+                                                    min: 0
+                                                },
+                                                {
+                                                    view: "counter",
+                                                    name: "mallnumnow",
+                                                    label: "All copies for now",
+                                                    labelWidth: 150,
+                                                    //todo:add automatical change when change mallnum
+                                                    step: 1,
+                                                    min: 0
+                                                },
+                                                {
+                                                    view: "counter",
+                                                    name: "mpriceperday",
+                                                    label: "Price per day",
+                                                    labelWidth: 150,
+                                                    step: 1,
+                                                    min: 0
+                                                },
+                                                {
+                                                    view: "richselect",
+                                                    id: "mgenres",
+                                                    name: "mgenres",
+                                                    label: "List of genres",
+                                                    labelWidth: 150,
+                                                    options: [],
+                                                    click: function () {
+                                                        var list = $$("mgenres").getPopup().getList();
+                                                        list.parse(genresForSelect());
+                                                    }
+                                                },
+                                                {
+                                                    view: "richselect",
+                                                    name: "mmoviemakers",
+                                                    id: "mmoviemakers",
+                                                    label: "List of movie makers",
+                                                    labelWidth: 150,
+                                                    options: [],
+                                                    click: function () {
+                                                        var list = $$("mmoviemakers").getPopup().getList();
+                                                        list.parse(moviemakersForSelect());
+                                                    }
+                                                },
+                                                {
+                                                    view: "richselect",
+                                                    name: "mactors",
+                                                    id: "mactors",
+                                                    label: "List of actors",
+                                                    labelWidth: 150,
+                                                    options: [],
+                                                    click: function () {
+                                                        var list = $$("mactors").getPopup().getList();
+                                                        list.parse(actorsForSelect());
+                                                    }
+                                                },
+                                                {
+                                                    view: "richselect",
+                                                    name: "mdirectors",
+                                                    id: "mdirectors",
+                                                    label: "List of directors",
+                                                    labelWidth: 150,
+                                                    options: [],
+                                                    click: function () {
+                                                        var list = $$("mdirectors").getPopup().getList();
+                                                        list.parse(directorsForSelect());
+                                                    }
                                                 }
-                                            },
-                                            {
-                                                view:"richselect",
-                                                name:"mmoviemakers",
-                                                id:"mmoviemakers",
-                                                label:"List of movie makers",
-                                                labelWidth: 150,
-                                                options:[],
-                                                click:function() {
-                                                    var list = $$("mmoviemakers").getPopup().getList();
-                                                    list.parse(moviemakersForSelect());
-                                                }
-                                            },
-                                            {
-                                                view:"richselect",
-                                                name:"mactors",
-                                                id:"mactors",
-                                                label:"List of actors",
-                                                labelWidth: 150,
-                                                options:[],
-                                                click:function() {
-                                                    var list = $$("mactors").getPopup().getList();
-                                                    list.parse(actorsForSelect());
-                                                }
-                                            },
-                                            {
-                                                view:"richselect",
-                                                name:"mdirectors",
-                                                id:"mdirectors",
-                                                label:"List of directors",
-                                                labelWidth: 150,
-                                                options:[],
-                                                click:function() {
-                                                    var list = $$("mdirectors").getPopup().getList();
-                                                    list.parse(directorsForSelect());
-                                                }
-                                            }
-                                        ]
+                                            ]
+                                        }
                                     },
                                     {
                                         view: "button",
                                         value: "Save",
                                         width: 100,
                                         click:function(){
-                                            //todo:at least one director
                                             //todo:genre and movie maker can be set once
-                                            //var id = $$("editlistCatalogue").getSelectedId();
-                                            //var genresFromID = CDCatalogue.findOne({_id:id}).map( function (obj) {
-                                            //    return {id: obj._id, value: obj.mgenres};
-                                            //})();
-                                            $$("formCatalogue").save();
+                                            var directors = $$("mdirectors").getValue();
+                                            if (directors) {
+                                                $$("formCatalogue").save();
+                                            }
+                                            else
+                                                webix.message("At least one director should be set");
                                         }
                                     }
                                 ]
@@ -711,76 +725,80 @@
                             {
                                 rows:[
                                     {
-                                        view:"form",
-                                        id:"formClients",
-                                        scroll:true,
-                                        width:600,
-                                        elements:[
-                                            {
-                                                view:"text",
-                                                name:"cardid",
-                                                label:"Card Number",
-                                                labelWidth: 150,
-                                                readonly:true
-                                            },
-                                            {
-                                                view:"text",
-                                                name:"sname",
-                                                label:"SurName",
-                                                labelWidth: 150
-                                            },
-                                            {
-                                                view:"text",
-                                                name:"fname",
-                                                label:"FirstName",
-                                                labelWidth: 150
-                                            },
-                                            {
-                                                view:"text",
-                                                name:"pname",
-                                                label:"PatronymicName",
-                                                labelWidth: 150
-                                            },
-                                            {
-                                                view:"text",
-                                                name:"spassport",
-                                                label:"Passport series",
-                                                labelWidth: 150
-                                            },
-                                            {
-                                                view:"text",
-                                                name:"npassport",
-                                                label:"Passport number",
-                                                labelWidth: 150
-                                            },
-                                            {
-                                                view:"text",
-                                                name:"ipassport",
-                                                label:"Issuance of passport",
-                                                labelWidth: 150
-                                            },
-                                            {
-                                                view:"text",
-                                                name:"apassport",
-                                                label:"Address",
-                                                labelWidth: 150
-                                            },
-                                            {
-                                                view:"counter",
-                                                name:"discount",
-                                                label:"Personal discount(%)",
-                                                labelWidth: 150,
-                                                step:5,
-                                                min:0, max:100
-                                            },
-                                            {
-                                                view:"counter",
-                                                name:"balans",
-                                                label:"Personal balans",
-                                                labelWidth: 150,
-                                                step:5
-                                            }
-                                        ]
+                                        view: "fieldset",
+                                        label: "Person info",
+                                        body: {
+                                            view: "form",
+                                            id: "formClients",
+                                            scroll: true,
+                                            width: 600,
+                                            elements: [
+                                                {
+                                                    view: "text",
+                                                    name: "cardid",
+                                                    label: "Card Number",
+                                                    labelWidth: 150,
+                                                    readonly: true
+                                                },
+                                                {
+                                                    view: "text",
+                                                    name: "sname",
+                                                    label: "SurName",
+                                                    labelWidth: 150
+                                                },
+                                                {
+                                                    view: "text",
+                                                    name: "fname",
+                                                    label: "FirstName",
+                                                    labelWidth: 150
+                                                },
+                                                {
+                                                    view: "text",
+                                                    name: "pname",
+                                                    label: "PatronymicName",
+                                                    labelWidth: 150
+                                                },
+                                                {
+                                                    view: "text",
+                                                    name: "spassport",
+                                                    label: "Passport series",
+                                                    labelWidth: 150
+                                                },
+                                                {
+                                                    view: "text",
+                                                    name: "npassport",
+                                                    label: "Passport number",
+                                                    labelWidth: 150
+                                                },
+                                                {
+                                                    view: "text",
+                                                    name: "ipassport",
+                                                    label: "Issuance of passport",
+                                                    labelWidth: 150
+                                                },
+                                                {
+                                                    view: "text",
+                                                    name: "apassport",
+                                                    label: "Address",
+                                                    labelWidth: 150
+                                                },
+                                                {
+                                                    view: "counter",
+                                                    name: "discount",
+                                                    label: "Personal discount(%)",
+                                                    labelWidth: 150,
+                                                    step: 5,
+                                                    min: 0, max: 100
+                                                },
+                                                {
+                                                    view: "counter",
+                                                    name: "balans",
+                                                    label: "Personal balans",
+                                                    labelWidth: 150,
+                                                    step: 5
+                                                }
+                                            ]
+                                        }
                                     },
                                     {
                                         view: "button",
@@ -794,17 +812,21 @@
                             },
                             {width:10},
                             {
-                                view:"list",
-                                id:"listClientHistory",
-                                template:function (obj) {
-                                    var title = CDCatalogue.findOne({_id:obj.mcd}).mname;
-                                    if (obj.menddate == 0)
-                                        return title;
-                                    else
-                                        return title + " (was returned)";
-                                },
-                                url:  webix.proxy('meteor', OrderHistory),
-                                width:300
+                                view: "fieldset",
+                                label: "CD order history",
+                                body: {
+                                    view: "list",
+                                    id: "listClientHistory",
+                                    template: function (obj) {
+                                        var title = CDCatalogue.findOne({_id: obj.mcd}).mname;
+                                        if (obj.menddate == 0)
+                                            return title;
+                                        else
+                                            return title + " (was returned)";
+                                    },
+                                    url: webix.proxy('meteor', OrderHistory),
+                                    width: 300
+                                }
                             }
                         ]
                     }
