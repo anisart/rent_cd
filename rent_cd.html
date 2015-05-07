@@ -672,7 +672,7 @@
                                         cardid:uniqueId,
                                         fname:"Firstname", sname:"Surname", pname:"",
                                         spassport:"", npassport:"", ipassport:"", apassport:"",
-                                        discount:"", balans:0
+                                        discount:0, balans:0
                                     }, 0)
                                 }
                             },
@@ -778,8 +778,7 @@
                                                 name:"balans",
                                                 label:"Personal balans",
                                                 labelWidth: 150,
-                                                step:5,
-                                                min:0
+                                                step:5
                                             }
                                         ]
                                     },
@@ -919,8 +918,7 @@
                                     var startDate = $$("giveDate").getValue();
                                     var clientBalans = Clients.findOne({_id:client}).balans;
                                     var availableCDnum = CDCatalogue.findOne({_id:cd}).mallnumnow;
-                                    //todo:add check sum of oredered cd from client
-                                    //todo:add check for sum of cd now for rent
+                                    //todo:add check sum of ordered cds from client
                                     if (clientBalans > 0) {
                                         if (availableCDnum > 0) {
                                             OrderHistory.insert({
@@ -999,7 +997,6 @@
                                 value: "Make return",
                                 width: 200,
                                 click:function() {
-                                    //todo:add sum of order
                                     var orderID = $$("editlistOrders").getSelectedId();
                                     if (OrderHistory.findOne({_id:orderID}).menddate != 0)
                                         webix.message("Cd have already been returned");
@@ -1014,6 +1011,17 @@
                                         CDCatalogue.update(
                                                 {_id: cdId},
                                                 {$inc: {mallnumnow: +1}}
+                                        );
+
+                                        var daysOfRent = (OrderHistory.findOne({_id:orderID}).menddate -
+                                                OrderHistory.findOne({_id:orderID}).mstartdate) / (1000 * 3600 * 24);
+                                        var cdCostPerDay = CDCatalogue.findOne({_id:cdId}).mpriceperday;
+                                        var clientId = OrderHistory.findOne({_id:orderID}).mclient;
+                                        var discountValue = Clients.findOne({_id:clientId}).discount;
+                                        var fullSum = daysOfRent * cdCostPerDay * (1 - (discountValue / 100));
+                                        Clients.update(
+                                                {_id: clientId},
+                                                {$inc: {balans: -fullSum}}
                                         );
                                     }
                                 }
