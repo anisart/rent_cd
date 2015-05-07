@@ -736,6 +736,7 @@
                                                 {
                                                     view: "text",
                                                     name: "cardid",
+                                                    id: "cardid",
                                                     label: "Card Number",
                                                     labelWidth: 150,
                                                     readonly: true
@@ -804,7 +805,12 @@
                                         view: "button",
                                         value: "Save",
                                         width: 100,
-                                        click:function(){
+                                        click: function() {
+                                            if ( $$("cardid").getValue() == "" ) {
+                                                var uniqueId = new Mongo.ObjectID;
+                                                uniqueId = uniqueId.valueOf();
+                                                $$("cardid").setValue(uniqueId);
+                                            }
                                             $$("formClients").save();
                                         }
                                     }
