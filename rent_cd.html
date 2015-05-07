@@ -686,7 +686,7 @@
                                         cardid:uniqueId,
                                         fname:"Firstname", sname:"Surname", pname:"",
                                         spassport:"", npassport:"", ipassport:"", apassport:"",
-                                        discount:0, balans:0
+                                        discount:0, balance:0
                                     }, 0)
                                 }
                             },
@@ -793,8 +793,8 @@
                                                 },
                                                 {
                                                     view: "counter",
-                                                    name: "balans",
-                                                    label: "Personal balans",
+                                                    name: "balance",
+                                                    label: "Personal balance",
                                                     labelWidth: 150,
                                                     step: 5
                                                 }
@@ -944,10 +944,10 @@
                                     var client = $$("dvclientIDsearch").getSelectedId();
                                     var seller = $$("selectsellers").getValue();
                                     var startDate = $$("giveDate").getValue();
-                                    var clientBalans = Clients.findOne({_id:client}).balans;
+                                    var clientBalance = Clients.findOne({_id:client}).balance;
                                     var availableCDnum = CDCatalogue.findOne({_id:cd}).mallnumnow;
                                     //todo:add check sum of ordered cds from client
-                                    if (clientBalans > 0) {
+                                    if (clientBalance > 0) {
                                         if (availableCDnum > 0) {
                                             OrderHistory.insert({
                                                 mcd: cd,
@@ -969,8 +969,53 @@
                                         }
                                     }
                                     else {
-                                        webix.message("Client has negative balans, can't make order");
+                                        webix.message("Client has negative balance, can't make order");
                                     }
+                                }
+                            },
+                            {height: 10},
+                            {
+                                view: "fieldset",
+                                label: "Refill balance",
+                                width: 350,
+                                body: {
+                                    rows: [
+                                        {
+                                            view: "counter",
+                                            id: "moneyCount",
+                                            label: "Amount",
+                                            labelWidth: 150,
+                                            step: 5,
+                                            min: 0
+                                        },
+                                        {
+                                            view: "datepicker",
+                                            name: "refillDate",
+                                            id: "refillDate",
+                                            label: "Date of Refill",
+                                            value: new Date(),
+                                            labelWidth: 150,
+                                            width: 350
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                view: "button",
+                                value: "Add money",
+                                width: 200,
+                                click: function () {
+                                    var client = $$("dvclientIDsearch").getSelectedId();
+                                    var amount = $$("moneyCount").getValue();
+                                    var refillDate = $$("refillDate").getValue();
+                                    Clients.update({_id: client}, {$inc: {balance: amount}}, function(error, _id) {
+                                        if (_id) {
+                                            $$("moneyCount").setValue(0);
+                                            webix.message("Yout balance has been refilled for " + amount);
+                                        } else {
+                                            webix.message("Refill error");
+                                        }
+                                    });
                                 }
                             }
                         ]
@@ -1049,7 +1094,7 @@
                                         var fullSum = daysOfRent * cdCostPerDay * (1 - (discountValue / 100));
                                         Clients.update(
                                                 {_id: clientId},
-                                                {$inc: {balans: -fullSum}}
+                                                {$inc: {balance: -fullSum}}
                                         );
                                     }
                                 }
