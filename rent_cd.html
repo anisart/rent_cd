@@ -526,7 +526,7 @@
                                     {
                                         view:"form",
                                         id:"formCatalogue",
-                                        scroll:false,
+                                        scroll:true,
                                         width:600,
 
                                         elements:[
@@ -914,6 +914,7 @@
                                     var seller = $$("selectsellers").getValue();
                                     var startDate = $$("giveDate").getValue();
                                     var clientBalans = Clients.findOne({_id:client}).balans;
+                                    var availableCDnum = CDCatalogue.findOne({_id:cd});
                                     //todo:add check sum of oredered cd from client
                                     //todo:add check for sum of cd now for rent
                                     if (clientBalans > 0) {
@@ -952,7 +953,7 @@
                         id:"editlistOrders",
                         template:function (obj) {
                             if (obj.menddate == 0)
-                                return CDCatalogue.findOne({_id:obj.mcd}).title + " " +
+                                return CDCatalogue.findOne({_id:obj.mcd}).mname + " " +
                                 Clients.findOne({_id:obj.mclient}).fname + " " +
                                 Clients.findOne({_id:obj.mclient}).sname;
                             else
