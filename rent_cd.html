@@ -946,31 +946,35 @@
                                     var startDate = $$("giveDate").getValue();
                                     var clientBalance = Clients.findOne({_id:client}).balance;
                                     var availableCDnum = CDCatalogue.findOne({_id:cd}).mallnumnow;
-                                    //todo:add check sum of ordered cds from client
-                                    if (clientBalance > 0) {
-                                        if (availableCDnum > 0) {
-                                            OrderHistory.insert({
-                                                mcd: cd,
-                                                mclient: client,
-                                                mseller: seller,
-                                                mstartdate: startDate,
-                                                menddate: 0,
-                                                msum: 0
-                                            });
-                                            CDCatalogue.update(
-                                                {_id: cd},
-                                                {$inc: {mallnumnow: -1}}
-                                            );
-                                            Log.insert({date: startDate, type: "giveCD", value: 1});
-                                            webix.message("Order is made");
-                                            //todo:clear all selections
+                                    var allCurrentOrders = OrderHistory.find({mclient:client, menddate:0}).count();
+                                    if (allCurrentOrders > 2) {
+                                            webix.message("Client has ordered 3 cds, can't make order");
                                         }
-                                        else{
-                                            webix.message("No more copies of this movie, can't make order");
-                                        }
-                                    }
                                     else {
-                                        webix.message("Client has negative balance, can't make order");
+                                        if (clientBalance > 0) {
+                                            if (availableCDnum > 0) {
+                                                OrderHistory.insert({
+                                                    mcd: cd,
+                                                    mclient: client,
+                                                    mseller: seller,
+                                                    mstartdate: startDate,
+                                                    menddate: 0,
+                                                    msum: 0
+                                                });
+                                                CDCatalogue.update(
+                                                        {_id: cd},
+                                                        {$inc: {mallnumnow: -1}}
+                                                );
+                                                Log.insert({date: startDate, type: "giveCD", value: 1});
+                                                webix.message("Order is made");
+                                            }
+                                            else {
+                                                webix.message("No more copies of this movie, can't make order");
+                                            }
+                                        }
+                                        else {
+                                            webix.message("Client has negative balance, can't make order");
+                                        }
                                     }
                                 }
                             },
