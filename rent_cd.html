@@ -10,69 +10,1174 @@
             name:"editlist"
         }, webix.EditAbility, webix.ui.list);
 
+        genresCell =
+        {
+            header:"Genres",
+            body:{
+                container:"listGenre",
+                type:"space",
+                rows:[
+                    {
+                        view:"toolbar",
+                        width:320,
+                        cols:[
+                        {
+                            view:"button",
+                            value:"Add New Genre",
+                            width:150,
+                            type:"form",
+                            align:"left",
+                            click:function(){
+                                var row = $$("listGenres").add({
+                                    title:"New title"
+                                });
+                            }
+                        },
+                        {},
+                        {
+                            view:"button",
+                            value:"Delete Genre",
+                            width:150,
+                            type:"danger",
+                            align:"right",
+                            click:function(){
+                                var id = $$("listGenres").getSelectedId();
+                                if (id)
+                                    $$("listGenres").remove(id);
+                                else
+                                    webix.message("Please select any row first");
+                            }
+                        }]
+                    },
+                    {
+                        cols:[
+                        {
+                            view:"editlist",
+                            id:"listGenres",
+                            template:"#title#",
+                            url:webix.proxy('meteor', Genres),
+                            save:webix.proxy('meteor', Genres),
+
+                            autoConfig: true,
+                            editable:true,
+                            editaction:"dblclick",
+                            editor:"text",
+                            editValue:"title",
+                            navigation:true,
+                            select:"cell",
+                            width:320
+                        }]
+                    }
+                ]
+            }
+        };
+
+        movieMakersCell =
+        {
+            header:"Movie Makers",
+            body:{
+                container:"listMM",
+                type:"space",
+                rows:[
+                    {
+                        view:"toolbar",
+                        width:500,
+                        cols:[
+                        {
+                            view:"button",
+                            value:"Add New Movie maker",
+                            width:200,
+                            type:"form",
+                            align:"left",
+                            click:function(){
+                                var row = $$("listMMakers").add({
+                                    title:"New title"
+                                });
+                            }
+                        },
+                        {},
+                        {
+                            view:"button",
+                            value:"Delete Movie maker",
+                            width:200,
+                            type:"danger",
+                            align:"right",
+                            click:function(){
+                                var id = $$("listMMakers").getSelectedId();
+                                if (id)
+                                    $$("listMMakers").remove(id);
+                                else
+                                    webix.message("Please select any row first");
+                            }
+                        }
+                    ]
+                    },
+                    {
+                        cols:[
+                        {
+                            view:"editlist",
+                            id:"listMMakers",
+                            template:"#title#",
+                            url:webix.proxy('meteor', MovieMakers),
+                            save:webix.proxy('meteor', MovieMakers),
+
+                            autoConfig: true,
+                            editable:true,
+                            editaction:"dblclick",
+                            editor:"text",
+                            editValue:"title",
+                            navigation:true,
+                            select:"cell",
+                            width:500
+                        }]
+                    }
+                ]
+            }
+        };
+
+        actorsCell =
+        {
+            header:"Actors and Directors",
+            body:{
+                container:"listActor",
+                type:"space",
+                rows:[
+                    {
+                        view:"toolbar",
+                        width:500,
+                        cols:[
+                            {
+                                view:"button",
+                                value:"Add New Actor or Director",
+                                width:200,
+                                type:"form",
+                                align:"left",
+                                click:function(){
+                                    $$("editlistActors").add({
+                                        fname:"New firstname",
+                                        sname:"New surname",
+                                        dateActor:"10/01/1990"
+                                    },0)
+                                }
+                            },
+                            {},
+                            {
+                                view:"button",
+                                value:"Delete Actor or Director",
+                                width:200,
+                                type:"danger",
+                                align:"right",
+                                click:function(){
+                                    var id = $$("editlistActors").getSelectedId();
+                                    if (id) {
+                                        $$("editlistActors").remove(id);
+                                    }
+                                    else
+                                        webix.message("Please select any row first");
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        cols:[
+                            {
+                                /*
+                                view:"datatable",
+                                id:"datatableActors",
+                                columns:[
+                                    { id:"fname",	 editor:"text",	header:"FirstName",     width:250},
+                                    { id:"sname",	 editor:"text",	header:"SurName",	    width:250},
+                                    { id:"dateActor",editor:"date",	header:"Date of Birth", width:150,
+                                        format:webix.Date.dateToStr("%m/%d/%y")}
+                                ],
+                                */
+
+                                view:"list",
+                                id:"editlistActors",
+                                template:"#fname# #sname#",
+
+                                width:300,
+                                select:true,
+                                autoConfig:true,
+                                url:webix.proxy('meteor', Actors),
+                                save:webix.proxy('meteor', Actors)
+                            },
+                            {width:10},
+                            {
+                                rows:[
+                                    {
+                                        view: "fieldset",
+                                        label: "Person info",
+                                        body: {
+                                            view: "form",
+                                            id: "formActors",
+                                            scroll: true,
+                                            width: 600,
+                                            elements: [
+                                                {
+                                                    view: "text",
+                                                    name: "fname",
+                                                    label: "FirstName",
+                                                    labelWidth: 100
+                                                },
+                                                {
+                                                    view: "text",
+                                                    name: "sname",
+                                                    label: "SurName",
+                                                    labelWidth: 100
+                                                },
+                                                {
+                                                    view: "datepicker",
+                                                    value: "1.2014.1",
+                                                    name: "dateActor",
+                                                    label: "Date of Birth",
+                                                    labelWidth: 100
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        view: "button",
+                                        value: "Save",
+                                        width: 100,
+                                        click:function(){
+                                            $$("formActors").save();
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        sellersCell =
+        {
+            header:"Sellers",
+            body:{
+                container:"listSeller",
+                type:"space",
+                rows:[
+                    {
+                        view:"toolbar",
+                        width:500,
+                        cols:[
+                            {
+                                view:"button",
+                                value:"Add New Seller",
+                                width:200,
+                                type:"form",
+                                align:"left",
+                                click:function(){
+                                    $$("editlistSellers").add({
+                                        fname:"Firstname", sname:"Surname", pname:"",
+                                        spassport:"", npassport:"", ipassport:"", apassport:""
+                                    },0)
+                                }
+                            },
+                            {},
+                            {
+                                view:"button",
+                                value:"Delete Seller",
+                                width:200,
+                                type:"danger",
+                                align:"right",
+                                click:function(){
+                                    var id = $$("editlistSellers").getSelectedId();
+                                    if (id) {
+                                        $$("editlistSellers").remove(id);
+                                    }
+                                    else
+                                        webix.message("Please select any row first");
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        cols:[
+                            {
+                                view:"list",
+                                id:"editlistSellers",
+                                template:"#sname# #fname# #pname#",
+
+                                width:300,
+                                select:true,
+                                autoConfig:true,
+                                url:webix.proxy('meteor', Sellers),
+                                save:webix.proxy('meteor', Sellers)
+                            },
+                            {width:10},
+                            {
+                                rows:[
+                                    {
+                                        view: "fieldset",
+                                        label: "Seller info",
+                                        body: {
+                                            view: "form",
+                                            id: "formSellers",
+                                            scroll: false,
+                                            width: 600,
+                                            elements: [
+                                                {
+                                                    view: "text",
+                                                    name: "sname",
+                                                    label: "SurName",
+                                                    labelWidth: 150
+                                                },
+                                                {
+                                                    view: "text",
+                                                    name: "fname",
+                                                    label: "FirstName",
+                                                    labelWidth: 150
+                                                },
+                                                {
+                                                    view: "text",
+                                                    name: "pname",
+                                                    label: "PatronymicName",
+                                                    labelWidth: 150
+                                                },
+                                                {
+                                                    view: "text",
+                                                    name: "spassport",
+                                                    label: "Passport series",
+                                                    labelWidth: 150
+                                                },
+                                                {
+                                                    view: "text",
+                                                    name: "npassport",
+                                                    label: "Passport number",
+                                                    labelWidth: 150
+                                                },
+                                                {
+                                                    view: "text",
+                                                    name: "ipassport",
+                                                    label: "Issuance of passport",
+                                                    labelWidth: 150
+                                                },
+                                                {
+                                                    view: "text",
+                                                    name: "apassport",
+                                                    label: "Address",
+                                                    labelWidth: 150
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        view: "button",
+                                        value: "Save",
+                                        width: 100,
+                                        click:function(){
+                                            $$("formSellers").save();
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        movieSearchCell =
+        {
+            header:"Simple Movie Search",
+            body:{
+                container:"listSimpleSearch",
+                type:"space",
+                rows:[
+                    {
+                        view:"toolbar",
+                        cols: [
+                            {
+                                view:"search",
+                                align:"center",
+                                placeholder:"Search..",
+                                id:"simplesearch",
+                                width: 300
+                            }
+                        ]
+                    },
+                    {
+                        view:"dataview",
+                        id:"dvSimpleSearch",
+                        width: 500,
+                        template:"#mname#",
+                        type:{
+                            height: 90,
+                            width: 250
+                        },
+                        url:webix.proxy('meteor', CDCatalogue),
+                        select:1
+                    },
+                    {
+                        rows: [
+                            {
+                                view: "form",
+                                id: "formSearchCatalogue",
+                                scroll: true,
+                                width: 600,
+
+                                elements: [
+                                    {
+                                        view: "text",
+                                        name: "cdid",
+                                        label: "CD id",
+                                        labelWidth: 150,
+                                        readonly:true
+                                    },
+                                    {
+                                        view: "text",
+                                        name: "mname",
+                                        label: "Movie Name",
+                                        labelWidth: 150,
+                                        readonly:true
+                                    },
+                                    {
+                                        view: "text",
+                                        name: "mrate",
+                                        label: "Movie Rate",
+                                        labelWidth: 150,
+                                        readonly:true
+                                    },
+                                    {
+                                        view: "text",
+                                        name: "mallnum",
+                                        label: "All copies",
+                                        labelWidth: 150,
+                                        readonly:true
+                                    },
+                                    {
+                                        view: "text",
+                                        name: "mallnumnow",
+                                        label: "All copies for now",
+                                        labelWidth: 150,
+                                        readonly:true
+                                    },
+                                    {
+                                        view: "text",
+                                        name: "mpriceperday",
+                                        label: "Price per day",
+                                        labelWidth: 150,
+                                        readonly:true
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        catalogueCdCell =
+        {
+            header:"CD catalogue",
+            body:{
+                container:"listCatalogue",
+                type:"space",
+                rows:[
+                    {
+                        view:"toolbar",
+                        width:500,
+                        cols:[
+                            {
+                                view:"button",
+                                value:"Add New CD",
+                                width:200,
+                                type:"form",
+                                align:"left",
+                                click:function(){
+                                    var uniqueId = new Mongo.ObjectID;
+                                    uniqueId = uniqueId.valueOf();
+                                    $$("editlistCatalogue").add({
+                                        cdid:uniqueId,
+                                        mname:"New film", mrate:0,
+                                        mallnum:0, mallnumnow:0, mpriceperday:0,
+                                        mgenres:"", mmoviemakers:"",
+                                        mactors:"", mdirectors:""
+                                    },0)
+                                }
+                            },
+                            {},
+                            {
+                                view:"button",
+                                value:"Delete CD",
+                                width:200,
+                                type:"danger",
+                                align:"right",
+                                click:function(){
+                                    var id = $$("editlistCatalogue").getSelectedId();
+                                    if (id) {
+                                        $$("editlistCatalogue").remove(id);
+                                    }
+                                    else
+                                        webix.message("Please select any row first");
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        cols:[
+                            {
+                                view:"list",
+                                id:"editlistCatalogue",
+                                template:"#mname#",
+
+                                width:300,
+                                select:true,
+                                autoConfig:true,
+                                url:webix.proxy('meteor', CDCatalogue),
+                                save:webix.proxy('meteor', CDCatalogue)
+                            },
+                            {width:10},
+                            {
+                                rows:[
+                                    {
+                                        view: "fieldset",
+                                        label: "CD info",
+                                        body: {
+                                            view: "form",
+                                            id: "formCatalogue",
+                                            scroll: true,
+                                            width: 600,
+
+                                            elements: [
+                                                {
+                                                    view: "text",
+                                                    name: "cdid",
+                                                    label: "CD id",
+                                                    labelWidth: 150,
+                                                    readonly: true
+                                                },
+                                                {
+                                                    view: "text",
+                                                    name: "mname",
+                                                    label: "Movie Name",
+                                                    labelWidth: 150
+                                                },
+                                                {
+                                                    view: "counter",
+                                                    name: "mrate",
+                                                    label: "Movie Rate",
+                                                    labelWidth: 150,
+                                                    step: 1,
+                                                    min: 0, max: 10
+                                                },
+                                                {
+                                                    view: "counter",
+                                                    name: "mallnum",
+                                                    label: "All copies",
+                                                    labelWidth: 150,
+                                                    step: 1,
+                                                    min: 0
+                                                },
+                                                {
+                                                    view: "counter",
+                                                    name: "mallnumnow",
+                                                    label: "All copies for now",
+                                                    labelWidth: 150,
+                                                    //todo:add automatical change when change mallnum
+                                                    step: 1,
+                                                    min: 0
+                                                },
+                                                {
+                                                    view: "counter",
+                                                    name: "mpriceperday",
+                                                    label: "Price per day",
+                                                    labelWidth: 150,
+                                                    step: 1,
+                                                    min: 0
+                                                },
+                                                {
+                                                    view: "richselect",
+                                                    id: "mgenres",
+                                                    name: "mgenres",
+                                                    label: "List of genres",
+                                                    labelWidth: 150,
+                                                    options: [],
+                                                    click: function () {
+                                                        var list = $$("mgenres").getPopup().getList();
+                                                        list.parse(genresForSelect());
+                                                    }
+                                                },
+                                                {
+                                                    view: "richselect",
+                                                    name: "mmoviemakers",
+                                                    id: "mmoviemakers",
+                                                    label: "List of movie makers",
+                                                    labelWidth: 150,
+                                                    options: [],
+                                                    click: function () {
+                                                        var list = $$("mmoviemakers").getPopup().getList();
+                                                        list.parse(moviemakersForSelect());
+                                                    }
+                                                },
+                                                {
+                                                    view: "richselect",
+                                                    name: "mactors",
+                                                    id: "mactors",
+                                                    label: "List of actors",
+                                                    labelWidth: 150,
+                                                    options: [],
+                                                    click: function () {
+                                                        var list = $$("mactors").getPopup().getList();
+                                                        list.parse(actorsForSelect());
+                                                    }
+                                                },
+                                                {
+                                                    view: "richselect",
+                                                    name: "mdirectors",
+                                                    id: "mdirectors",
+                                                    label: "List of directors",
+                                                    labelWidth: 150,
+                                                    options: [],
+                                                    click: function () {
+                                                        var list = $$("mdirectors").getPopup().getList();
+                                                        list.parse(directorsForSelect());
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        view: "button",
+                                        value: "Save",
+                                        width: 100,
+                                        click:function(){
+                                            //todo:genre and movie maker can be set once
+                                            var directors = $$("mdirectors").getValue();
+                                            if (directors) {
+                                                $$("formCatalogue").save();
+                                            }
+                                            else
+                                                webix.message("At least one director should be set");
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        clientsCell =
+        {
+            header:"Clients",
+            body:{
+                container:"listClient",
+                type:"space",
+                rows:[
+                    {
+                        view:"toolbar",
+                        width:500,
+                        cols:[
+                            {
+                                view:"button",
+                                value:"Add New Client",
+                                width:200,
+                                type:"form",
+                                align:"left",
+                                click:function(){
+                                    var uniqueId = new Mongo.ObjectID;
+                                    uniqueId = uniqueId.valueOf();
+                                    $$("editlistClients").add({
+                                        cardid:uniqueId,
+                                        fname:"Firstname", sname:"Surname", pname:"",
+                                        spassport:"", npassport:"", ipassport:"", apassport:"",
+                                        discount:0, balance:0
+                                    }, 0)
+                                }
+                            },
+                            {},
+                            {
+                                view:"button",
+                                value:"Delete Client",
+                                width:200,
+                                type:"danger",
+                                align:"right",
+                                click:function(){
+                                    var id = $$("editlistClients").getSelectedId();
+                                    if (id) {
+                                        $$("editlistClients").remove(id);
+                                    }
+                                    else
+                                        webix.message("Please select any row first");
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        cols:[
+                            {
+                                view:"list",
+                                id:"editlistClients",
+                                template:"#sname# #fname# #pname#",
+
+                                width:300,
+                                select:true,
+                                autoConfig:true,
+                                url:webix.proxy('meteor', Clients),
+                                save:webix.proxy('meteor', Clients)
+                            },
+                            {width:10},
+                            {
+                                rows:[
+                                    {
+                                        view: "fieldset",
+                                        label: "Person info",
+                                        body: {
+                                            view: "form",
+                                            id: "formClients",
+                                            scroll: true,
+                                            width: 600,
+                                            elements: [
+                                                {
+                                                    view: "text",
+                                                    name: "cardid",
+                                                    id: "cardid",
+                                                    label: "Card Number",
+                                                    labelWidth: 150,
+                                                    readonly: true
+                                                },
+                                                {
+                                                    view: "text",
+                                                    name: "sname",
+                                                    label: "SurName",
+                                                    labelWidth: 150
+                                                },
+                                                {
+                                                    view: "text",
+                                                    name: "fname",
+                                                    label: "FirstName",
+                                                    labelWidth: 150
+                                                },
+                                                {
+                                                    view: "text",
+                                                    name: "pname",
+                                                    label: "PatronymicName",
+                                                    labelWidth: 150
+                                                },
+                                                {
+                                                    view: "text",
+                                                    name: "spassport",
+                                                    label: "Passport series",
+                                                    labelWidth: 150
+                                                },
+                                                {
+                                                    view: "text",
+                                                    name: "npassport",
+                                                    label: "Passport number",
+                                                    labelWidth: 150
+                                                },
+                                                {
+                                                    view: "text",
+                                                    name: "ipassport",
+                                                    label: "Issuance of passport",
+                                                    labelWidth: 150
+                                                },
+                                                {
+                                                    view: "text",
+                                                    name: "apassport",
+                                                    label: "Address",
+                                                    labelWidth: 150
+                                                },
+                                                {
+                                                    view: "counter",
+                                                    name: "discount",
+                                                    label: "Personal discount(%)",
+                                                    labelWidth: 150,
+                                                    step: 5,
+                                                    min: 0, max: 100
+                                                },
+                                                {
+                                                    view: "counter",
+                                                    name: "balance",
+                                                    label: "Personal balance",
+                                                    labelWidth: 150,
+                                                    step: 5
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        view: "button",
+                                        value: "Save",
+                                        width: 100,
+                                        click: function() {
+                                            if ( $$("cardid").getValue() == "" ) {
+                                                var uniqueId = new Mongo.ObjectID;
+                                                uniqueId = uniqueId.valueOf();
+                                                $$("cardid").setValue(uniqueId);
+                                            }
+                                            $$("formClients").save();
+                                        }
+                                    }
+                                ]
+                            },
+                            {width:10},
+                            {
+                                view: "fieldset",
+                                label: "CD order history",
+                                body: {
+                                    view: "list",
+                                    id: "listClientHistory",
+                                    template: function (obj) {
+                                        var title = CDCatalogue.findOne({_id: obj.mcd}).mname;
+                                        if (obj.menddate == 0)
+                                            return title;
+                                        else
+                                            return title + " (was returned)";
+                                    },
+                                    url: webix.proxy('meteor', OrderHistory),
+                                    width: 300
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        giveCDCell =
+        {
+            header:"Give CD",
+            body:{
+                container:"listgivecd",
+                type:"space",
+                height:"100%",
+                cols:[
+                    {
+                        view: "fieldset",
+                        label: "Select client",
+                        width: 350,
+                        body: {
+                            rows: [
+                                {
+                                    view: "search",
+                                    align: "left",
+                                    placeholder: "Search by user card",
+                                    id: "clientIDsearch",
+                                    width: 350
+                                },
+                                {
+                                    view: "dataview",
+                                    id: "dvclientIDsearch",
+                                    width: 350,
+                                    template: "#cardid#: #fname# #sname#, discount: #discount#%",
+                                    type: {
+                                        height: 90,
+                                        width: 350
+                                    },
+                                    url: webix.proxy('meteor', Clients),
+                                    select: 1
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        view: "fieldset",
+                        label: "Select cd movie",
+                        width: 350,
+                        body: {
+                            rows: [
+                                {
+                                    view: "search",
+                                    align: "left",
+                                    placeholder: "Search by movie name",
+                                    id: "movienamesearch",
+                                    width: 350
+                                },
+                                {
+                                    view: "dataview",
+                                    id: "dvMovieNamesearch",
+                                    width: 350,
+                                    template: "#mname#: now we have #mallnumnow# copies, price: #mpriceperday#",
+                                    type: {
+                                        height: 90,
+                                        width: 350
+                                    },
+                                    url: webix.proxy('meteor', CDCatalogue),
+                                    select: 1
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        rows: [
+                            {
+                                view: "fieldset",
+                                label: "Select seller",
+                                width: 350,
+                                body: {
+                                    rows: [
+                                        {
+                                            view: "richselect",
+                                            name: "selectsellers",
+                                            id: "selectsellers",
+                                            options: [],
+                                            click: function () {
+                                                var list = $$("selectsellers").getPopup().getList();
+                                                list.parse(sellersForSelect());
+                                            }
+
+                                        },
+                                        {
+                                            view: "datepicker",
+                                            name: "giveDate",
+                                            id: "giveDate",
+                                            label: "Date of Give",
+                                            value: new Date(),
+                                            labelWidth: 150,
+                                            width: 350
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                view: "button",
+                                value: "Make order",
+                                width: 200,
+                                click: function () {
+                                    var cd = $$("dvMovieNamesearch").getSelectedId();
+                                    var client = $$("dvclientIDsearch").getSelectedId();
+                                    var seller = $$("selectsellers").getValue();
+                                    var startDate = $$("giveDate").getValue();
+                                    var clientBalance = Clients.findOne({_id:client}).balance;
+                                    var availableCDnum = CDCatalogue.findOne({_id:cd}).mallnumnow;
+                                    var allCurrentOrders = OrderHistory.find({mclient:client, menddate:0}).count();
+                                    if (allCurrentOrders > 2) {
+                                            webix.message("Client has ordered 3 cds, can't make order");
+                                        }
+                                    else {
+                                        if (clientBalance > 0) {
+                                            if (availableCDnum > 0) {
+                                                OrderHistory.insert({
+                                                    mcd: cd,
+                                                    mclient: client,
+                                                    mseller: seller,
+                                                    mstartdate: startDate,
+                                                    menddate: 0,
+                                                    msum: 0
+                                                });
+                                                CDCatalogue.update(
+                                                        {_id: cd},
+                                                        {$inc: {mallnumnow: -1}}
+                                                );
+                                                Log.insert({date: startDate, type: "giveCD", value: 1});
+                                                webix.message("Order is made");
+                                            }
+                                            else {
+                                                webix.message("No more copies of this movie, can't make order");
+                                            }
+                                        }
+                                        else {
+                                            webix.message("Client has negative balance, can't make order");
+                                        }
+                                    }
+                                }
+                            },
+                            {height: 10},
+                            {
+                                view: "fieldset",
+                                label: "Refill balance",
+                                width: 350,
+                                body: {
+                                    rows: [
+                                        {
+                                            view: "counter",
+                                            id: "moneyCount",
+                                            label: "Amount",
+                                            labelWidth: 150,
+                                            step: 5,
+                                            min: 0
+                                        },
+                                        {
+                                            view: "datepicker",
+                                            name: "refillDate",
+                                            id: "refillDate",
+                                            label: "Date of Refill",
+                                            value: new Date(),
+                                            labelWidth: 150,
+                                            width: 350
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                view: "button",
+                                value: "Add money",
+                                width: 200,
+                                click: function () {
+                                    var client = $$("dvclientIDsearch").getSelectedId();
+                                    var amount = $$("moneyCount").getValue();
+                                    var refillDate = $$("refillDate").getValue();
+                                    if (amount != 0) {
+                                        Clients.update({_id: client}, {$inc: {balance: amount}}, function (error, _id) {
+                                            if (_id) {
+                                                Log.insert({date: refillDate, type: "refill", value: amount});
+                                                $$("moneyCount").setValue(0);
+                                                webix.message("Yout balance has been refilled for " + amount);
+                                            } else {
+                                                webix.message("Refill error");
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        returnCDCell =
+        {
+            header:"Return CD",
+            body:{
+                container:"listreturncd",
+                type:"space",
+                height:"100%",
+                cols:[
+                    {
+                        view:"list",
+                        id:"editlistOrders",
+                        template:function (obj) {
+                            if (obj.menddate == 0)
+                                return CDCatalogue.findOne({_id:obj.mcd}).mname + " " +
+                                Clients.findOne({_id:obj.mclient}).fname + " " +
+                                Clients.findOne({_id:obj.mclient}).sname;
+                            else
+                                return "cd was returned";
+                        },
+
+                        width:300,
+                        select:true,
+                        autoConfig:true,
+                        url:webix.proxy('meteor', OrderHistory),
+                        save:webix.proxy('meteor', OrderHistory)
+                    },
+                    {
+                        rows: [
+                            {
+                                view: "fieldset",
+                                width: 350,
+                                body:{
+                                    view: "datepicker",
+                                    name: "returnDate",
+                                    id: "returnDate",
+                                    label: "Date of Return",
+                                    value: new Date(),
+                                    labelWidth: 150,
+                                    width: 350
+                                }
+                            },
+                            {
+                                view: "button",
+                                value: "Make return",
+                                width: 200,
+                                click:function() {
+                                    var orderID = $$("editlistOrders").getSelectedId();
+                                    if (OrderHistory.findOne({_id:orderID}).menddate != 0)
+                                        webix.message("Cd have already been returned");
+                                    else {
+                                        var endDate = $$("returnDate").getValue();
+                                        OrderHistory.update(
+                                                {_id: orderID},
+                                                {$set: {menddate: endDate}}
+                                        );
+
+                                        var cdId = OrderHistory.findOne({_id:orderID}).mcd;
+                                        CDCatalogue.update(
+                                                {_id: cdId},
+                                                {$inc: {mallnumnow: +1}}
+                                        );
+
+                                        var daysOfRent = (OrderHistory.findOne({_id:orderID}).menddate -
+                                                OrderHistory.findOne({_id:orderID}).mstartdate) / (1000 * 3600 * 24);
+                                        var cdCostPerDay = CDCatalogue.findOne({_id:cdId}).mpriceperday;
+                                        var clientId = OrderHistory.findOne({_id:orderID}).mclient;
+                                        var discountValue = Clients.findOne({_id:clientId}).discount;
+                                        var fullSum = daysOfRent * cdCostPerDay * (1 - (discountValue / 100));
+                                        Clients.update(
+                                                {_id: clientId},
+                                                {$inc: {balance: -fullSum}}
+                                        );
+                                        Log.insert({date: endDate, type: "returnCD", value: 1});
+                                        Log.insert({date: endDate, type: "expense", value: fullSum});
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
         webix.ui({
             view:"tabview",
             cells:[
-                {
-                    header:"Genre",
-                    body:{
-                        container:"listGenre",
-                        type:"space",
-                        rows:[
-                            {view:"toolbar", cols:[
-                                {
-                                    view:"button",
-                                    value:"Add New Genre",
-                                    width:150,
-                                    type:"form",
-                                    align:"left",
-                                    click:function(){
-                                        var row = $$("listGenres").add({
-                                            title:"New title"
-                                        });
-                                    }
-                                },
-                                {},
-                                {
-                                    view:"button",
-                                    value:"Delete Genre",
-                                    width:150,
-                                    type:"danger",
-                                    align:"right",
-                                    click:function(){
-                                        var id = $$("listGenres").getSelectedId();
-                                        if (id)
-                                            $$("listGenres").remove(id);
-                                        else
-                                            webix.message("Please select any row first");
-                                    }
-                                }
-                            ]
-                            },
-                            { cols:[
-                                {
-                                    view:"editlist",
-                                    id:"listGenres",
-                                    template:"#title#",
-                                    url:webix.proxy('meteor', Genres),
-                                    save:webix.proxy('meteor', Genres),
-
-                                    autoConfig: true,
-                                    editable:true,
-                                    editaction:"dblclick",
-                                    editor:"text",
-                                    editValue:"title",
-                                    navigation:true,
-                                    select:"cell",
-                                    width:320
-                                }
-                            ]}
-                        ]
-                    }
-                }
-            ]
+                genresCell,
+                movieMakersCell,
+                actorsCell,
+                catalogueCdCell,
+                movieSearchCell,
+                sellersCell,
+                clientsCell,
+                giveCDCell,
+                returnCDCell
+            ],
+            tabbar: {
+                height: 60
+            },
+            width:"100%",
+            height:"100%"
         });
+
+        $$('formActors').bind('editlistActors');
+        $$('formSellers').bind('editlistSellers');
+        $$('formCatalogue').bind('editlistCatalogue');
+        $$('formClients').bind('editlistClients');
+        $$('listClientHistory').bind($$('editlistClients'), function(obj, filter) {
+            return obj.mclient == filter.id;
+        });
+        $$('formSearchCatalogue').bind('dvSimpleSearch');
+
+        $$("simplesearch").attachEvent("onTimedKeyPress",function(){
+            var value = this.getValue().toLowerCase();
+
+            $$("dvSimpleSearch").filter(function(obj){
+                return obj.mname.toLowerCase().indexOf(value)==0;
+            })
+        });
+
+        $$("clientIDsearch").attachEvent("onTimedKeyPress",function(){
+            var value = this.getValue().toLowerCase();
+
+            $$("dvclientIDsearch").filter(function(obj){
+                return obj.cardid.toLowerCase().indexOf(value)==0;
+            })
+        });
+
+        $$("movienamesearch").attachEvent("onTimedKeyPress",function(){
+            var value = this.getValue().toLowerCase();
+
+            $$("dvMovieNamesearch").filter(function(obj){
+                return obj.mname.toLowerCase().indexOf(value)==0;
+            })
+        });
+
     });
+
 </script>
 <div id="listGenre"></div>
+<div id="listMM"></div>
+<div id="listActor"></div>
+<div id="listSeller"></div>
+<div id="listCatalogue"></div>
+<div id="listClient"></div>
+<div id="listSimpleSearch"></div>
+<div id="listgivecd"></div>
+<div id="listreturncd"></div>
 </body>
