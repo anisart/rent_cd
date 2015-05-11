@@ -965,7 +965,7 @@
                                                         {_id: cd},
                                                         {$inc: {mallnumnow: -1}}
                                                 );
-                                                Log.insert({date: startDate, type: "giveCD", value: 1});
+                                                Log.insert({date: startDate, giveCD: 1});
                                                 webix.message("Order is made");
                                             }
                                             else {
@@ -1016,7 +1016,7 @@
                                     if (amount != 0) {
                                         Clients.update({_id: client}, {$inc: {balance: amount}}, function (error, _id) {
                                             if (_id) {
-                                                Log.insert({date: refillDate, type: "refill", value: amount});
+                                                Log.insert({date: refillDate, refill: amount});
                                                 $$("moneyCount").setValue(0);
                                                 webix.message("Yout balance has been refilled for " + amount);
                                             } else {
@@ -1104,12 +1104,42 @@
                                                 {_id: clientId},
                                                 {$inc: {balance: -fullSum}}
                                         );
-                                        Log.insert({date: endDate, type: "returnCD", value: 1});
-                                        Log.insert({date: endDate, type: "expense", value: fullSum});
+                                        Log.insert({date: endDate, returnCD: 1, expense: fullSum});
                                     }
                                 }
                             }
                         ]
+                    }
+                ]
+            }
+        };
+
+        reportCell =
+        {
+            header:"Report",
+            body:{
+                container:"tableReport",
+                type:"space",
+                rows:[
+                    {
+                        view: "datatable",
+                        id: "reportTable",
+                        columns:[
+                            { id: 'date', header: 'Date', editor: 'text', fillspace: true, format: webix.i18n.dateFormatStr },
+                            { id: 'giveCD', header: 'Give CD', editor: 'text', adjust: true },
+                            { id: 'returnCD', header: 'Return CD', editor: 'text', adjust: true },
+                            { id: 'refill', header: 'Refill', editor: 'text', adjust: true, format: webix.Number.numToStr({
+                                groupDelimiter:",",
+                                groupSize:3,
+                                decimalDelimiter:".",
+                                decimalSize:2}) },
+                            { id: 'expense', header: 'Expense', editor: 'text', adjust: true, format: webix.Number.numToStr({
+                                groupDelimiter:",",
+                                groupSize:3,
+                                decimalDelimiter:".",
+                                decimalSize:2}) }
+                        ],
+                        url: webix.proxy("meteor", Log)
                     }
                 ]
             }
@@ -1126,7 +1156,8 @@
                 sellersCell,
                 clientsCell,
                 giveCDCell,
-                returnCDCell
+                returnCDCell,
+                reportCell
             ],
             tabbar: {
                 height: 60
@@ -1180,4 +1211,5 @@
 <div id="listSimpleSearch"></div>
 <div id="listgivecd"></div>
 <div id="listreturncd"></div>
+<div id="tableReport"></div>
 </body>

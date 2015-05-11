@@ -15,7 +15,7 @@ if (Meteor.isClient) {
     Meteor.subscribe('cdcataloguePub');
     Meteor.subscribe('clientsPub');
     Meteor.subscribe('orderhistoryPub');
-    Meteor.subscribe('logPub');
+    Meteor.subscribe('log');
 
     genresForSelect = function() {
         return Genres.find({}).map( function (obj) {
@@ -77,9 +77,23 @@ if (Meteor.isServer) {
         return OrderHistory.find({});
     });
 
-    Meteor.publish('logPub', function() {
-        return Log.find({});
-    });
+    Meteor.publish('log', function() {
+        //return Log.find({});
+        var self = this;
+        statistics = Log.aggregate([{ $group: {
+            _id: { $dayOfYear: [{$add: ["$date",10800000]}] },
+            date: { $first: "$date"},
+            giveCD: { $sum: "$giveCD"},
+            returnCD: { $sum: "$returnCD"},
+            refill: { $sum: "$refill"},
+            expense: { $sum: "$expense"}
+        } }]);
+        var i = 0;
+        _(statistics).each(function(entry) {
+            self.added('log', Random.id(), entry);
+        });
+        self.ready();
+});
 
     Genres.allow({
         insert: function () { return true; },
