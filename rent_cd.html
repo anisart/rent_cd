@@ -965,7 +965,7 @@
                                                         {_id: cd},
                                                         {$inc: {mallnumnow: -1}}
                                                 );
-                                                Log.insert({date: startDate, type: "giveCD", value: 1});
+                                                Log.insert({date: startDate, giveCD: 1});
                                                 webix.message("Order is made");
                                             }
                                             else {
@@ -1016,7 +1016,7 @@
                                     if (amount != 0) {
                                         Clients.update({_id: client}, {$inc: {balance: amount}}, function (error, _id) {
                                             if (_id) {
-                                                Log.insert({date: refillDate, type: "refill", value: amount});
+                                                Log.insert({date: refillDate, refill: amount});
                                                 $$("moneyCount").setValue(0);
                                                 webix.message("Yout balance has been refilled for " + amount);
                                             } else {
@@ -1104,11 +1104,59 @@
                                                 {_id: clientId},
                                                 {$inc: {balance: -fullSum}}
                                         );
-                                        Log.insert({date: endDate, type: "returnCD", value: 1});
-                                        Log.insert({date: endDate, type: "expense", value: fullSum});
+                                        Log.insert({date: endDate, returnCD: 1, expense: fullSum});
                                     }
                                 }
                             }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        reportCell =
+        {
+            header:"Report",
+            body:{
+                container:"tableReport",
+                type:"space",
+                rows:[
+                    {
+                        view:"toolbar",
+                        width:500,
+                        cols:[
+                            {
+                                view: "label",
+                                label: "Non-reactive report table. Click button to refresh ->"
+                            },
+                            {
+                                view:"button",
+                                value:"Refresh",
+                                width:150,
+                                type:"form",
+                                align:"right",
+                                click: function() { fillReportTable() }
+                            }
+                        ]
+                    },
+                    {
+                        view: "datatable",
+                        id: "reportTable",
+                        footer: true,
+                        columns:[
+                            { id: 'date', header: 'Date', editor: 'text', fillspace: true, format: webix.i18n.dateFormatStr, sort: "date", footer: "All time" },
+                            { id: 'giveCD', header: 'Give CD', editor: 'text', width: 100, footer:{content:"summColumn"} },
+                            { id: 'returnCD', header: 'Return CD', editor: 'text', width: 100, footer:{content:"summColumn"} },
+                            { id: 'refill', header: 'Refill', editor: 'text', width: 100, format: webix.Number.numToStr({
+                                groupDelimiter:",",
+                                groupSize:3,
+                                decimalDelimiter:".",
+                                decimalSize:2}), footer:{content:"summColumn"} },
+                            { id: 'expense', header: 'Expense', editor: 'text', width: 100, format: webix.Number.numToStr({
+                                groupDelimiter:",",
+                                groupSize:3,
+                                decimalDelimiter:".",
+                                decimalSize:2}), footer:{content:"summColumn"} }
                         ]
                     }
                 ]
@@ -1126,7 +1174,8 @@
                 sellersCell,
                 clientsCell,
                 giveCDCell,
-                returnCDCell
+                returnCDCell,
+                reportCell
             ],
             tabbar: {
                 height: 60
@@ -1168,6 +1217,7 @@
             })
         });
 
+        fillReportTable();
     });
 
 </script>
@@ -1180,4 +1230,5 @@
 <div id="listSimpleSearch"></div>
 <div id="listgivecd"></div>
 <div id="listreturncd"></div>
+<div id="tableReport"></div>
 </body>

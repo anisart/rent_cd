@@ -15,7 +15,7 @@ if (Meteor.isClient) {
     Meteor.subscribe('cdcataloguePub');
     Meteor.subscribe('clientsPub');
     Meteor.subscribe('orderhistoryPub');
-    Meteor.subscribe('logPub');
+    Meteor.subscribe('log');
 
     genresForSelect = function() {
         return Genres.find({}).map( function (obj) {
@@ -45,6 +45,14 @@ if (Meteor.isClient) {
         return Sellers.find({}).map( function (obj) {
             return {id: obj._id, value: obj.fname + " " + obj.sname};
         })
+    };
+
+    fillReportTable = function() {
+        Meteor.call('getStatistics',function(err, response) {
+            var table = $$("reportTable");
+            table.clearAll();
+            table.parse(response);
+        });
     };
 }
 
@@ -77,8 +85,27 @@ if (Meteor.isServer) {
         return OrderHistory.find({});
     });
 
-    Meteor.publish('logPub', function() {
+    Meteor.publish('log', function() {
         return Log.find({});
+    });
+
+    Meteor.methods({
+       getStatistics: function() {
+           var offset = new Date().getTimezoneOffset();
+           statistics = Log.aggregate([
+               { $group: {
+                   _id: { $dayOfYear: [{$add: ["$date", offset * 60 * 1000]}] },
+                   date: { $first: "$date"},
+                   giveCD: { $sum: "$giveCD"},
+                   returnCD: { $sum: "$returnCD"},
+                   refill: { $sum: "$refill"},
+                   expense: { $sum: "$expense"}
+               } },
+               { $sort: {
+                   date: -1
+               }}]);
+           return statistics;
+       }
     });
 
     Genres.allow({
