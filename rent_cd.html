@@ -1122,24 +1122,42 @@
                 type:"space",
                 rows:[
                     {
+                        view:"toolbar",
+                        width:500,
+                        cols:[
+                            {
+                                view: "label",
+                                label: "Non-reactive report table. Click button to refresh ->"
+                            },
+                            {
+                                view:"button",
+                                value:"Refresh",
+                                width:150,
+                                type:"form",
+                                align:"right",
+                                click: function() { fillReportTable() }
+                            }
+                        ]
+                    },
+                    {
                         view: "datatable",
                         id: "reportTable",
+                        footer: true,
                         columns:[
-                            { id: 'date', header: 'Date', editor: 'text', fillspace: true, format: webix.i18n.dateFormatStr },
-                            { id: 'giveCD', header: 'Give CD', editor: 'text', adjust: true },
-                            { id: 'returnCD', header: 'Return CD', editor: 'text', adjust: true },
-                            { id: 'refill', header: 'Refill', editor: 'text', adjust: true, format: webix.Number.numToStr({
+                            { id: 'date', header: 'Date', editor: 'text', fillspace: true, format: webix.i18n.dateFormatStr, sort: "date", footer: "All time" },
+                            { id: 'giveCD', header: 'Give CD', editor: 'text', width: 100, footer:{content:"summColumn"} },
+                            { id: 'returnCD', header: 'Return CD', editor: 'text', width: 100, footer:{content:"summColumn"} },
+                            { id: 'refill', header: 'Refill', editor: 'text', width: 100, format: webix.Number.numToStr({
                                 groupDelimiter:",",
                                 groupSize:3,
                                 decimalDelimiter:".",
-                                decimalSize:2}) },
-                            { id: 'expense', header: 'Expense', editor: 'text', adjust: true, format: webix.Number.numToStr({
+                                decimalSize:2}), footer:{content:"summColumn"} },
+                            { id: 'expense', header: 'Expense', editor: 'text', width: 100, format: webix.Number.numToStr({
                                 groupDelimiter:",",
                                 groupSize:3,
                                 decimalDelimiter:".",
-                                decimalSize:2}) }
-                        ],
-                        url: webix.proxy("meteor", Log)
+                                decimalSize:2}), footer:{content:"summColumn"} }
+                        ]
                     }
                 ]
             }
@@ -1199,6 +1217,7 @@
             })
         });
 
+        fillReportTable();
     });
 
 </script>

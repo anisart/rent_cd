@@ -46,6 +46,14 @@ if (Meteor.isClient) {
             return {id: obj._id, value: obj.fname + " " + obj.sname};
         })
     };
+
+    fillReportTable = function() {
+        Meteor.call('getStatistics',function(err, response) {
+            var table = $$("reportTable");
+            table.clearAll();
+            table.parse(response);
+        });
+    };
 }
 
 if (Meteor.isServer) {
@@ -78,22 +86,27 @@ if (Meteor.isServer) {
     });
 
     Meteor.publish('log', function() {
-        //return Log.find({});
-        var self = this;
-        statistics = Log.aggregate([{ $group: {
-            _id: { $dayOfYear: [{$add: ["$date",10800000]}] },
-            date: { $first: "$date"},
-            giveCD: { $sum: "$giveCD"},
-            returnCD: { $sum: "$returnCD"},
-            refill: { $sum: "$refill"},
-            expense: { $sum: "$expense"}
-        } }]);
-        var i = 0;
-        _(statistics).each(function(entry) {
-            self.added('log', Random.id(), entry);
-        });
-        self.ready();
-});
+        return Log.find({});
+    });
+
+    Meteor.methods({
+       getStatistics: function() {
+           var offset = new Date().getTimezoneOffset();
+           statistics = Log.aggregate([
+               { $group: {
+                   _id: { $dayOfYear: [{$add: ["$date", offset * 60 * 1000]}] },
+                   date: { $first: "$date"},
+                   giveCD: { $sum: "$giveCD"},
+                   returnCD: { $sum: "$returnCD"},
+                   refill: { $sum: "$refill"},
+                   expense: { $sum: "$expense"}
+               } },
+               { $sort: {
+                   date: -1
+               }}]);
+           return statistics;
+       }
+    });
 
     Genres.allow({
         insert: function () { return true; },
