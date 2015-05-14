@@ -1218,6 +1218,17 @@
         });
 
         fillReportTable();
+
+        // TODO: quick fix
+        var list = $$("mgenres").getPopup().getList();
+        list.parse(genresForSelect());
+        list = $$("mmoviemakers").getPopup().getList();
+        list.parse(moviemakersForSelect());
+        list = $$("mactors").getPopup().getList();
+        list.parse(actorsForSelect());
+        list = $$("mdirectors").getPopup().getList();
+        list.parse(directorsForSelect());
+
     });
 
 </script>
